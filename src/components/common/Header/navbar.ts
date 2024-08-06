@@ -18,10 +18,16 @@ export default [
     route: "/community/meetup/",
   },
   {
-    label: "学习",
+    label: "博客",
     trigger: "click",
     target: "_self",
     route: "/learning/",
+  },
+  {
+    label: "教程",
+    trigger: "click",
+    target: "_self",
+    route: "/course/",
   },
   {
     label: "答疑样例",
