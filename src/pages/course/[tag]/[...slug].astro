@@ -3,8 +3,6 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import BlogPost from "@components/markdownSet/MarkdownDetail.astro";
 import TocComponent from "@components/markdownSet/TocComponents/TocComponent.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { Button } from "@serverless-cd/goat-ui";
-import { Icon } from "@astrojs/starlight/components";
 import Sidebar from "@components/starlight/Sidebar.astro";
 import { useTranslations } from "@i18n/util";
 import { SITE } from "@utils/config";
@@ -20,12 +18,12 @@ export const ALL_COURSE_TAG = [
     category: "baseLearn",
     entries: [],
   },
-  {
-    type: "group",
-    label: "部署",
-    category: "deploy",
-    entries: [],
-  },
+  // {
+  //   type: "group",
+  //   label: "部署",
+  //   category: "deploy",
+  //   entries: [],
+  // },
   {
     type: "group",
     label: "版本",
@@ -61,55 +59,23 @@ const sortedPosts = posts.sort(
   (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
 );
 
-// let currentIndex;
-
-// sortedPosts.forEach((item, index) => {
-//   if (post.id === item.id) currentIndex = index;
-//   ALL_COURSE_TAG.forEach((a) => {
-//     a.entries.forEach((entry) => {
-//       entry.isCurrent = false; // 清除其他文章的isCurrent标记
-//     });
-//     if (item.data.tags.includes(a.category)) {
-//       // const exists = a.entries.some((it) => it.label === item.data.title);
-//       const existingEntry = a.entries.find(
-//         (entry) => entry.label === item.data.title
-//       );
-//       if (!existingEntry) {
-//         // 不存在则创建新的entry并标记isCurrent
-//         a.entries.push({
-//           type: "link",
-//           label: item.data.title,
-//           href: `/course/${a.category}/${item.slug}/`,
-//           isCurrent: item.id === post.id, // 当前文章为true，其他文章为false
-//           attrs: {},
-//         });
-//       } else {
-//         // 已存在则仅标记isCurrent
-//         existingEntry.isCurrent = item.id === post.id;
-//       }
-//     }
-//   });
-// });
-
-let currentIndex = null;
-// 设置当前文章的ID
 const currentPostId = post.id;
 
 ALL_COURSE_TAG.forEach((a) => {
   const tagEntries = [];
   sortedPosts.forEach((item, index) => {
-    if (item.id === currentPostId) {
-      currentIndex = index;
-    }
     if (item.data.tags.includes(a.category)) {
       let isCurrent = false;
       if (item.id === currentPostId) {
         isCurrent = true;
       }
-      const existingEntry = a.entries.find((entry) => entry.label === item.data.title);
+      const existingEntry = a.entries.find(
+        (entry) => entry.label === item.data.title
+      );
       if (!existingEntry) {
         // 不存在则创建新的entry
         tagEntries.push({
+          id: item.id,
           type: "link",
           label: item.data.title,
           href: `/course/${a.category}/${item.slug}/`,
@@ -127,8 +93,11 @@ ALL_COURSE_TAG.forEach((a) => {
 });
 
 const entries = ALL_COURSE_TAG.flatMap((item) => item.entries);
-const prev = entries[currentIndex - 1];
-const next = entries[currentIndex + 1];
+// 找到当前文章在排序后的文章列表中的位置
+const currentIndex = entries.findIndex((item) => item.id === currentPostId);
+const prev = currentIndex > 0 ? entries[currentIndex - 1] : null;
+const next =
+  currentIndex < entries.length - 1 ? entries[currentIndex + 1] : null;
 const baseLayout_title = post?.data?.title || `${SITE.name} Blog`;
 ---
 

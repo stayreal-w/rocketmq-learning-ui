@@ -15,7 +15,7 @@ export default [
     label: "社区",
     trigger: "click",
     target: "_self",
-    route: "/community/meetup/",
+    route: "/community/forum/",
   },
   {
     label: "博客",
@@ -27,20 +27,20 @@ export default [
     label: "教程",
     trigger: "click",
     target: "_self",
-    route: "/course/baseLearn/rocketmq_learning-fast/",
+    route: "/course/baseLearn/rocketmq_learning-framework/",
   },
-  // {
-  //   label: "版本",
-  //   trigger: "click",
-  //   target: "_self",
-  //   route: "/course/version/",
-  // },
   {
-    label: "部署",
+    label: "版本",
     trigger: "click",
     target: "_self",
-    route: "/course/deploy/alicloudfunction/",
+    route: "/course/version/apacherocketmq-530/",
   },
+  // {
+  //   label: "部署",
+  //   trigger: "click",
+  //   target: "_self",
+  //   route: "/course/deploy/alicloudfunction/",
+  // },
   {
     label: "答疑样例",
     trigger: "click",
