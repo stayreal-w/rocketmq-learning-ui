@@ -607,19 +607,19 @@ export const BASE_LEARNDATA = [
   {
     img: "https://img.alicdn.com/imgextra/i4/O1CN01JOPX5Z1MEAG6kJOF7_!!6000000001402-2-tps-498-220.png",
     title: "RocketMQ 原理和架构",
-    href: "/learning/baseLearn/rocketmq_learning-framework/?source=home",
+    href: "/course/baseLearn/rocketmq_learning-framework/?source=home",
     target: "_self"
   },
   {
     img: "https://img.alicdn.com/imgextra/i4/O1CN01YzRjCl1W7QafAcFDu_!!6000000002741-2-tps-496-220.png",
     title: "RocketMQ 应用场景",
-    href: "/learning/baseLearn/rocketmq_learning-scene/?source=home",
+    href: "/course/baseLearn/rocketmq_learning-scene/?source=home",
     target: "_self"
   },
   {
     img: "https://img.alicdn.com/imgextra/i2/O1CN01QV0A1x1bz54BmqOIk_!!6000000003535-2-tps-496-220.png",
     title: "RocketMQ 快速上手体验",
-    href: "/learning/baseLearn/rocketmq_learning-fast/?source=home",
+    href: "/course/baseLearn/rocketmq_learning-fast/?source=home",
     target: "_self"
   },
 ];
@@ -816,17 +816,17 @@ export const ACTIVE_DATA = [
 export const LEARNING_DATA = [
   {
     title: "RocketMQ 原理和架构",
-    href: "/learning/baseLearn/rocketmq_learning-framework/?source=learning",
+    href: "/course/baseLearn/rocketmq_learning-framework/?source=learning",
     target: "_self"
   },
   {
     title: "RocketMQ 应用场景",
-    href: "/learning/baseLearn/rocketmq_learning-scene/?source=learning",
+    href: "/course/baseLearn/rocketmq_learning-scene/?source=learning",
     target: "_self"
   },
   {
     title: "RocketMQ 快速上手体验",
-    href: "/learning/baseLearn/rocketmq_learning-fast/?source=learning",
+    href: "/course/baseLearn/rocketmq_learning-fast/?source=learning",
     target: "_self"
   },
 ]
@@ -904,11 +904,11 @@ export const ALL_ARTICLE_TAG = [
     title: "最佳实践",
     href: '/learning/bestPractice/'
   },
-  {
-    type: 'baseLearn',
-    title: "基础学习资料",
-    href: '/learning/baseLearn/'
-  },
+  // {
+  //   type: 'baseLearn',
+  //   title: "基础学习资料",
+  //   href: '/learning/baseLearn/'
+  // },
   {
     type: 'recommend',
     title: "强力推荐",
@@ -918,6 +918,11 @@ export const ALL_ARTICLE_TAG = [
 
 // 社区页tag
 export const COMMUNITY_TAG = [
+  {
+    type: 'forum',
+    title: "论坛",
+    href: '/community/forum/'
+  },
   {
     type: 'meetup',
     title: "#Meetup",
@@ -970,7 +975,8 @@ export const COMMUNITY_DATA = [
     des: "RocketMQ x EventMesh Open Day 线上直播（一）",
     href: "/community/detail/m1/",
     source: "https://cloud.video.taobao.com/play/u/null/p/1/e/6/t/1/d/ud/355043993582.mp4",
-    img: "https://img.alicdn.com/imgextra/i2/O1CN01JJOlDv1wWJu9rzqkZ_!!6000000006315-2-tps-1291-563.png"
+    // img: "https://img.alicdn.com/imgextra/i2/O1CN01JJOlDv1wWJu9rzqkZ_!!6000000006315-2-tps-1291-563.png"
+    img: "https://img.alicdn.com/imgextra/i1/O1CN01ieFvAc25Yuv0fVAd3_!!6000000007539-2-tps-3502-1330.png"
   },
   {
     tag: 'meetup',
@@ -986,7 +992,8 @@ export const COMMUNITY_DATA = [
     des: "RocketMQ x EventMesh Open Day 线上直播（三）",
     href: "/community/detail/m2/",
     source: "https://cloud.video.taobao.com/play/u/null/p/1/e/6/t/1/d/ud/354501760073.mp4",
-    img: "https://img.alicdn.com/imgextra/i2/O1CN01wxOXFd1sHQZ2obeyy_!!6000000005741-2-tps-1291-563.png"
+    // img: "https://img.alicdn.com/imgextra/i2/O1CN01wxOXFd1sHQZ2obeyy_!!6000000005741-2-tps-1291-563.png"
+    img: "https://img.alicdn.com/imgextra/i4/O1CN012vBV9n1myaPw1GbBg_!!6000000005023-2-tps-3728-1394.png"
   },
   {
     tag: 'meetup',
@@ -1002,7 +1009,8 @@ export const COMMUNITY_DATA = [
     des: "RocketMQ x EventMesh Open Day 线上直播（四）",
     href: "/community/detail/m3/",
     source: "https://cloud.video.taobao.com/play/u/null/p/1/e/6/t/1/d/ud/354501688435.mp4",
-    img: "https://img.alicdn.com/imgextra/i4/O1CN01G2GPlC1jnBTy9nhho_!!6000000004592-2-tps-1291-563.png"
+    // img: "https://img.alicdn.com/imgextra/i4/O1CN01G2GPlC1jnBTy9nhho_!!6000000004592-2-tps-1291-563.png"
+    img: "https://img.alicdn.com/imgextra/i2/O1CN01n36UUM1R5WsG1Th24_!!6000000002060-2-tps-3442-1322.png"
   },
   {
     tag: 'meetup',
@@ -1023,7 +1031,8 @@ export const COMMUNITY_DATA = [
     des: "RocketMQ x EventMesh Open Day 线上直播（五）",
     href: "/community/detail/m4/",
     source: "https://cloud.video.taobao.com/play/u/null/p/1/e/6/t/1/d/ud/355042453895.mp4",
-    img: "https://img.alicdn.com/imgextra/i2/O1CN018a86IZ1WVExZcwugo_!!6000000002793-2-tps-1291-563.png"
+    // img: "https://img.alicdn.com/imgextra/i2/O1CN018a86IZ1WVExZcwugo_!!6000000002793-2-tps-1291-563.png"
+    img: "https://img.alicdn.com/imgextra/i3/O1CN01BGb0Ko1CPwHuzgI4k_!!6000000000074-2-tps-3310-1554.png"
   },
   {
     tag: 'meetup',
@@ -1056,7 +1065,8 @@ export const COMMUNITY_DATA = [
     des: "RocketMQ with Hudi & Kyuubi线上沙龙",
     href: "/community/detail/m5/",
     source: "https://vod-yq-aliyun.taobao.com/vod-7651a3/62f50eeed66a46a0aa23383bb44f1000/b18cbaeabde5fe2744f3935518221c3c-hd.mp4",
-    img: "https://img.alicdn.com/imgextra/i3/O1CN01NhGsJG1UjJzQjYPth_!!6000000002553-0-tps-1291-563.jpg"
+    // img: "https://img.alicdn.com/imgextra/i3/O1CN01NhGsJG1UjJzQjYPth_!!6000000002553-0-tps-1291-563.jpg"
+    img: "https://img.alicdn.com/imgextra/i4/O1CN01T9rWGL1iVUnXn5g6Z_!!6000000004418-2-tps-3674-1516.png"
   },
   {
     tag: 'meetup',
@@ -1065,7 +1075,8 @@ export const COMMUNITY_DATA = [
     time: "2023年2月16日",
     des: "RocketMQ X OceanBase 线上技术沙龙",
     href: "/community/detail/m6/",
-    img: "https://img.alicdn.com/imgextra/i1/O1CN01EhGwkT1J0126wPGkn_!!6000000000965-0-tps-1291-563.jpg",
+    // img: "https://img.alicdn.com/imgextra/i1/O1CN01EhGwkT1J0126wPGkn_!!6000000000965-0-tps-1291-563.jpg",
+    img: "https://img.alicdn.com/imgextra/i2/O1CN01saiEVL1jWF3grO4Mh_!!6000000004555-2-tps-3606-1326.png",
     source: "https://cloud.video.taobao.com/play/u/null/p/1/e/6/t/1/406062368920.mp4?SBizCode=xiaoer",
     introduction: [
       {
@@ -1113,7 +1124,8 @@ export const COMMUNITY_DATA = [
     des: "RocketMQ Summit 2022 - 主论坛",
     href: "/community/detail/s1/",
     source: "https://vod-yq-aliyun.taobao.com/vod-7651a3/4001d9dc9f754232a13d8d30d326272a/15fb013425d14cf0aeb0a4767333b138-hd.mp4",
-    img: "https://img.alicdn.com/imgextra/i4/O1CN01UP6cbA1aAPUhVkKFh_!!6000000003289-0-tps-1920-1080.jpg"
+    // img: "https://img.alicdn.com/imgextra/i4/O1CN01UP6cbA1aAPUhVkKFh_!!6000000003289-0-tps-1920-1080.jpg"
+    img: "https://img.alicdn.com/imgextra/i2/O1CN01VgCCFJ1YngMloRASO_!!6000000003104-2-tps-3070-1558.png"
   },
   {
     tag: 'summit',
@@ -1154,7 +1166,8 @@ export const COMMUNITY_DATA = [
     des: "RocketMQ Summit 2022 - 开源生态发展 DAY1",
     href: "/community/detail/s2/",
     source: "https://vod-yq-aliyun.taobao.com/vod-7651a3/20d86e5aee2f4f7d8e6087609fe2cd3d/30516fba5270cb84cf401d01c74cc1d0-hd.mp4",
-    img: "https://img.alicdn.com/imgextra/i1/O1CN01x19XWS1VhmGgUwy2S_!!6000000002685-0-tps-1920-1080.jpg"
+    // img: "https://img.alicdn.com/imgextra/i1/O1CN01x19XWS1VhmGgUwy2S_!!6000000002685-0-tps-1920-1080.jpg"
+    img: "https://img.alicdn.com/imgextra/i3/O1CN01iNgviy1t4tZCRUCUG_!!6000000005849-2-tps-2900-1484.png"
   },
   {
     tag: 'summit',
@@ -1196,7 +1209,8 @@ export const COMMUNITY_DATA = [
     des: "RocketMQ Summit 2022 - 行业探索实践 DAY1",
     href: "/community/detail/s3/",
     source: "https://vod-yq-aliyun.taobao.com/vod-7651a3/458f7393618c484a972494507912c326/e3f0e46c41447bf478f395d6b43ac6f5-hd.mp4",
-    img: "https://img.alicdn.com/imgextra/i2/O1CN01DwuV3x1aJ716oeDS7_!!6000000003308-0-tps-1920-1080.jpg"
+    // img: "https://img.alicdn.com/imgextra/i2/O1CN01DwuV3x1aJ716oeDS7_!!6000000003308-0-tps-1920-1080.jpg"
+    img: "https://img.alicdn.com/imgextra/i2/O1CN01EoIoMf1PiLCs8GDSn_!!6000000001874-2-tps-2730-1424.png"
   },
   {
     tag: 'summit',
@@ -1239,7 +1253,8 @@ export const COMMUNITY_DATA = [
     des: "RocketMQ Summit 2022 - 核心技术解析",
     href: "/community/detail/s4/",
     source: "https://vod-yq-aliyun.taobao.com/vod-7651a3/ace87dcddc044576acbe6bcb4ce82fd4/729d03df09379102dcf44e2ac7642ec0-hd.mp4",
-    img: "https://img.alicdn.com/imgextra/i3/O1CN01mFg49v1MkgEgY8G4j_!!6000000001473-0-tps-1920-1080.jpg"
+    // img: "https://img.alicdn.com/imgextra/i3/O1CN01mFg49v1MkgEgY8G4j_!!6000000001473-0-tps-1920-1080.jpg"
+    img: "https://img.alicdn.com/imgextra/i2/O1CN01j0u6Lu23TIpdWV6X7_!!6000000007256-2-tps-2752-1450.png"
   },
   {
     tag: 'summit',
@@ -1275,7 +1290,8 @@ export const COMMUNITY_DATA = [
     des: "RocketMQ Summit 2022 - 开源生态发展 DAY2",
     href: "/community/detail/s5/",
     source: "https://vod-yq-aliyun.taobao.com/vod-7651a3/cdcd9c9ce45b44c4998b6c356b4c63e5/a7670d86c206609a62aa262bcde4746b-hd.mp4",
-    img: "https://img.alicdn.com/imgextra/i1/O1CN01x19XWS1VhmGgUwy2S_!!6000000002685-0-tps-1920-1080.jpg"
+    // img: "https://img.alicdn.com/imgextra/i1/O1CN01x19XWS1VhmGgUwy2S_!!6000000002685-0-tps-1920-1080.jpg"
+    img: "https://img.alicdn.com/imgextra/i2/O1CN01pPKFKn27RhulubVRr_!!6000000007794-2-tps-2706-1420.png"
   },
   {
     tag: 'summit',
@@ -1309,7 +1325,8 @@ export const COMMUNITY_DATA = [
     des: "RocketMQ Summit 2022 - 行业探索实践 DAY2",
     href: "/community/detail/s6/",
     source: "https://vod-yq-aliyun.taobao.com/vod-7651a3/944e9f9319d9496ea41090ae3fc8c3f7/9c1c8f4a45f27e67aceef52081e98ddd-hd.mp4",
-    img: "https://img.alicdn.com/imgextra/i2/O1CN01DwuV3x1aJ716oeDS7_!!6000000003308-0-tps-1920-1080.jpg"
+    // img: "https://img.alicdn.com/imgextra/i2/O1CN01DwuV3x1aJ716oeDS7_!!6000000003308-0-tps-1920-1080.jpg"
+    img: "https://img.alicdn.com/imgextra/i3/O1CN01f6jkLa1lxq9mOhruZ_!!6000000004886-2-tps-2726-1454.png"
   },
   {
     tag: 'live',

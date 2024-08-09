@@ -12,32 +12,13 @@ import Pagination from "@astrojs/starlight/components/Pagination.astro";
 
 const t = useTranslations(Astro);
 
-export async function getStaticPaths() {
-  const posts = await getCollection("course");
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: post,
-  }));
-}
-
-type Props = CollectionEntry<"blog">;
-
-const post = Astro.props;
-
-const { Content, headings } = await post.render();
-
-const posts = await getCollection("course");
-
-const sortedPosts = posts.sort(
-  (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
-);
-
-const articlePosts = [
+// 教程页所有tag
+export const ALL_COURSE_TAG = [
   {
     type: "group",
     label: "基础学习资料",
     category: "baseLearn",
-    entries: [] as any,
+    entries: [],
   },
   {
     type: "group",
@@ -53,24 +34,102 @@ const articlePosts = [
   },
 ];
 
-let currentIndex;
+export async function getStaticPaths() {
+  const posts = await getCollection("course");
+  const allTags = ALL_COURSE_TAG.map((item) => item.category);
 
-sortedPosts.forEach((item, index) => {
-  if (post.id === item.id) currentIndex = index;
-  articlePosts.forEach((a) => {
+  return allTags.flatMap((tag) => {
+    const filteredPosts = posts.filter((post) =>
+      post.data?.tags?.includes(tag)
+    );
+    return filteredPosts.map((post) => ({
+      params: { tag: tag, slug: post.slug },
+      props: post,
+    }));
+  });
+}
+
+type Props = CollectionEntry<"blog">;
+
+const post = Astro.props;
+
+const { Content, headings } = await post.render();
+
+const posts = await getCollection("course");
+
+const sortedPosts = posts.sort(
+  (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+);
+
+// let currentIndex;
+
+// sortedPosts.forEach((item, index) => {
+//   if (post.id === item.id) currentIndex = index;
+//   ALL_COURSE_TAG.forEach((a) => {
+//     a.entries.forEach((entry) => {
+//       entry.isCurrent = false; // 清除其他文章的isCurrent标记
+//     });
+//     if (item.data.tags.includes(a.category)) {
+//       // const exists = a.entries.some((it) => it.label === item.data.title);
+//       const existingEntry = a.entries.find(
+//         (entry) => entry.label === item.data.title
+//       );
+//       if (!existingEntry) {
+//         // 不存在则创建新的entry并标记isCurrent
+//         a.entries.push({
+//           type: "link",
+//           label: item.data.title,
+//           href: `/course/${a.category}/${item.slug}/`,
+//           isCurrent: item.id === post.id, // 当前文章为true，其他文章为false
+//           attrs: {},
+//         });
+//       } else {
+//         // 已存在则仅标记isCurrent
+//         existingEntry.isCurrent = item.id === post.id;
+//       }
+//     }
+//   });
+// });
+
+let currentIndex = null;
+// 设置当前文章的ID
+const currentPostId = post.id;
+
+ALL_COURSE_TAG.forEach((a) => {
+  const tagEntries = [];
+  sortedPosts.forEach((item, index) => {
+    if (item.id === currentPostId) {
+      currentIndex = index;
+    }
     if (item.data.tags.includes(a.category)) {
-      a.entries.push({
-        type: "link",
-        label: item.data.title,
-        href: `/course/${item.slug}/`,
-        isCurrent: post.id === item.id,
-        attrs: {},
-      });
+      let isCurrent = false;
+      if (item.id === currentPostId) {
+        isCurrent = true;
+      }
+      const existingEntry = a.entries.find((entry) => entry.label === item.data.title);
+      if (!existingEntry) {
+        // 不存在则创建新的entry
+        tagEntries.push({
+          type: "link",
+          label: item.data.title,
+          href: `/course/${a.category}/${item.slug}/`,
+          isCurrent: isCurrent,
+          attrs: {},
+        });
+      } else {
+        // 已存在则仅标记isCurrent
+        existingEntry.isCurrent = isCurrent;
+        tagEntries.push(existingEntry);
+      }
     }
   });
+  a.entries = tagEntries; // 覆盖原始entries以避免重复
 });
 
-const entries = articlePosts.flatMap((item) => item.entries);
+
+console.log("ALL_COURSE_TAG", ALL_COURSE_TAG);
+
+const entries = ALL_COURSE_TAG.flatMap((item) => item.entries);
 const prev = entries[currentIndex - 1];
 const next = entries[currentIndex + 1];
 const baseLayout_title = post?.data?.title || `${SITE.name} Blog`;
@@ -82,7 +141,7 @@ const baseLayout_title = post?.data?.title || `${SITE.name} Blog`;
       <div
         class="w-[20%] sidebar-content fixed overflow-auto h-full hidden 2xl:inline-block xl:inline-block lg:inline-block md:inline-block"
       >
-        <Sidebar sidebar={articlePosts} />
+        <Sidebar sidebar={ALL_COURSE_TAG} />
       </div>
       <div
         class="w-full 2xl:ml-[20%] xl:ml-[20%] lg:ml-[20%] md:ml-[20%] 2xl:w-[60%] xl:w-[60%] lg:w-[80%] md:w-[80%] inline-block"

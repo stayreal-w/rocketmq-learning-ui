@@ -41,13 +41,20 @@ const cardData = COMMUNITY_DATA.filter((it) => it.tag === tag);
         category={COMMUNITY_TAG}
         activeCategory={tag}
       />
-      <div class="activecard-box">
-        {
-          cardData?.map((item) => (
-            <ActiveCard active={item} source="community" />
-          ))
-        }
-      </div>
+      {
+        tag === "forum" ? (
+          <iframe
+            src="https://developer.aliyun.com/group/apacherocketmq/?spm=5176.8068049.0.0.51556d19d0yUD2#/"
+            title="论坛"
+          />
+        ) : (
+          <div class="activecard-box">
+            {cardData?.map((item) => (
+              <ActiveCard active={item} source="community" />
+            ))}
+          </div>
+        )
+      }
     </div>
   </div>
 </BaseLayout>

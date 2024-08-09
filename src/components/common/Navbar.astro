@@ -63,9 +63,19 @@ const ifactive = (toggle) => {
   const { route, activePath = [] } = toggle;
   if (route) {
     if (ifzh) {
-      if (route === "/community/meetup/") {
+      if (route.startsWith("/community")) {
         return Astro.url.pathname.startsWith("/community");
       }
+      if (route.startsWith("/course/baseLearn")) {
+        return Astro.url.pathname.startsWith("/course/baseLearn");
+      }
+      if (route.startsWith("/course/version")) {
+        return Astro.url.pathname.startsWith("/course/version");
+      }
+      if (route.startsWith("/course/deploy")) {
+        return Astro.url.pathname.startsWith("/course/deploy");
+      }
+
       return Astro.url.pathname.startsWith(route);
     }
     return Astro.url.pathname.startsWith(`/en${route}`);

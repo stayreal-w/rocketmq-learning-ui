@@ -3,7 +3,7 @@ title: "“全”事件触发：阿里云函数计算与事件总线产品完成
 date: "2021/12/11"
 author: "史明伟（世如）"
 img: "https://img.alicdn.com/imgextra/i3/O1CN01LJvem01gp4LnBZXXN_!!6000000004190-0-tps-685-383.jpg"
-tags: ["practice","deploy"]
+tags: ["deploy"]
 description: "目前，函数计算已具备接入EventBridge所有事件源的触发能力，实现触达阿里云全系产品服务的“最后一公里”。"
 ---
 # _作者：史明伟（世如）阿里云高级技术专家_

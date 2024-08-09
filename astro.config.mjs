@@ -111,6 +111,5 @@ export default defineConfig({
 		'/en-us/': '/en/',
 		'/[...slug].html': '/[...slug]',
 		'/docs/': '/',
-    '/course/': '/course/rocketmq_learning-fast/',
 	}
 });

@@ -27,7 +27,19 @@ export default [
     label: "教程",
     trigger: "click",
     target: "_self",
-    route: "/course/",
+    route: "/course/baseLearn/rocketmq_learning-fast/",
+  },
+  // {
+  //   label: "版本",
+  //   trigger: "click",
+  //   target: "_self",
+  //   route: "/course/version/",
+  // },
+  {
+    label: "部署",
+    trigger: "click",
+    target: "_self",
+    route: "/course/deploy/alicloudfunction/",
   },
   {
     label: "答疑样例",

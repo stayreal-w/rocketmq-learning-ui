@@ -3,7 +3,7 @@ title: "阿里云中间件首席架构师李小平：企业为什么需要云原
 date: "2021/06/15"
 author: "李小平"
 img: "https://img.alicdn.com/imgextra/i3/O1CN01P14kGT1q7Eb8dygIN_!!6000000005448-0-tps-685-383.jpg"
-tags: ["practice","deploy"]
+tags: ["deploy"]
 description: "阿里云希望跟社会各界的朋友一起在云原生领域里面做更多的探索，希望通过云原生技术，真正为企业带来更多的业务价值，助力企业整体的业务创新。"
 ---
 ![](https://img.alicdn.com/imgextra/i2/O1CN01pEIQhe1Ogg9P1rsPm_!!6000000001735-0-tps-1080-720.jpg)
