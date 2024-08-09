@@ -126,9 +126,6 @@ ALL_COURSE_TAG.forEach((a) => {
   a.entries = tagEntries; // 覆盖原始entries以避免重复
 });
 
-
-console.log("ALL_COURSE_TAG", ALL_COURSE_TAG);
-
 const entries = ALL_COURSE_TAG.flatMap((item) => item.entries);
 const prev = entries[currentIndex - 1];
 const next = entries[currentIndex + 1];
