@@ -2,9 +2,9 @@
 title: "深度剖析 RocketMQ 5.0 之事件驱动：云时代的事件驱动有啥不同？"
 description: "深度剖析 RocketMQ 5.0 之事件驱动：云时代的事件驱动有啥不同？"
 date: "2024-08-09"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+tags: ["explore"]
+author: "隆基"
+img: "https://img.alicdn.com/imgextra/i2/O1CN01wf42Ic2267AMSFv2j_!!6000000007070-2-tps-596-360.png"
 ---
 
 作者｜隆基

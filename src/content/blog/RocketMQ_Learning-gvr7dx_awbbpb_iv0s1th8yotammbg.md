@@ -2,9 +2,9 @@
 title: "谈谈 RocketMQ 5.0 分级存储背后一些有挑战的技术优化"
 description: "谈谈 RocketMQ 5.0 分级存储背后一些有挑战的技术优化"
 date: "2024-08-13"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+tags: ["explore"]
+author: "斜阳"
+img: "https://img.alicdn.com/imgextra/i3/O1CN01ebTELp1UUD4EU1i3W_!!6000000002520-2-tps-596-360.png"
 ---
 
 作者｜斜阳

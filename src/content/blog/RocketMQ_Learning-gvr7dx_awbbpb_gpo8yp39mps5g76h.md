@@ -2,9 +2,9 @@
 title: "深度剖析 RocketMQ 5.0 之架构解析：云原生架构如何支撑多元化场景？"
 description: "深度剖析 RocketMQ 5.0，架构解析：云原生架构如何支撑多元化场景？"
 date: "2024-08-09"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+tags: ["explore"]
+author: "隆基"
+img: "https://img.alicdn.com/imgextra/i1/O1CN01KYPkWt1Eg5U8v02i9_!!6000000000380-2-tps-596-360.png"
 ---
 
 作者 | 隆基
