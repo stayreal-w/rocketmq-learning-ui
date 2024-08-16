@@ -2,9 +2,8 @@
 title: "前置准备工作"
 description: "前置准备工作"
 date: "2024-08-15"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "KomachiSion"
+tags: ["deploy"]
+author: ""
 ---
 
 在开始部署 RocketMQ 之前，需要做好如下准备：

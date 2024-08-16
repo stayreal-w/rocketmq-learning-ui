@@ -2,9 +2,9 @@
 title: "深度解读 RocketMQ 存储机制"
 description: "深度解读 RocketMQ 存储机制"
 date: "2024-08-09"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+tags: ["explore"]
+author: "斜阳"
+img: "https://img.alicdn.com/imgextra/i2/O1CN01KAMXBd1ZLZfl5Kq3v_!!6000000003178-2-tps-496-276.png"
 ---
 
 作者 | 斜阳<br />来源 | 阿里开发者公众号

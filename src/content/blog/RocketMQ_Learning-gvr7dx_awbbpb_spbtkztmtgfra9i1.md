@@ -2,9 +2,9 @@
 title: "RocketMQ 批处理模型演进之路"
 description: "RocketMQ 批处理模型演进之路"
 date: "2024-08-13"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+tags: ["explore"]
+author: "谷乂"
+img: "https://img.alicdn.com/imgextra/i2/O1CN01NGNkNq29QuSXbCIGs_!!6000000008063-2-tps-596-360.png"
 ---
 
 作者｜谷乂

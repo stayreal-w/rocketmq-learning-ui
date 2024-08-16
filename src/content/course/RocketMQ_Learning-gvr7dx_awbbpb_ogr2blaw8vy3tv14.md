@@ -1,17 +1,16 @@
 ---
 title: "Apache RocketMQ 权威部署指南"
 description: "Apache RocketMQ 权威部署指南"
-date: "2024-08-15"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+date: "2024-08-16"
+tags: ["deploy"]
+author: ""
 ---
 
 <a name="ZDHfC"></a>
 ## 一、前言
 RocketMQ 5.0 包含多种组件，不仅包含如 Broker, NameServer 等 4.0 经典组件，还新增了多种功能组件，以支持多样的部署形态，适应复杂的部署场景。
 
-本文将对 RocketMQ 5.0 中常用的部署组件作介绍，并提供多种部署方式的详细指南。若需要了解迅速部署的 quick start 系列文章，可以直接阅读 **[**Quick Start迅速部署**](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/nse74d9gfuq3c5f0)** 系列文章。
+本文将对 RocketMQ 5.0 中常用的部署组件作介绍，并提供多种部署方式的详细指南。若需要了解迅速部署的 quick start 系列文章，可以直接阅读 **[**Quick Start迅速部署**](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_nse74d9gfuq3c5f0/)** 系列文章。
 <a name="JcDZC"></a>
 ## 二、常用部署组件
 <a name="J781w"></a>
@@ -21,12 +20,12 @@ RocketMQ 5.0 包含多种组件，不仅包含如 Broker, NameServer 等 4.0 经
 - **Master Broker**：处理消息的读写请求，是生产者发送消息和消费者消费消息的主要目标。
 - **Slave Broker**：作为 Master Broker 的副本存在，主要用于备读或者故障切换，以提高系统的可用性。在 Master Broker出故障时，Slave Broker 里的消息依然可以被消费，或者直接被提升为新的 Master 继续提供服务。
 
-Broker 的部署可以是单节点的，也可以是集群式的，甚至支持同机器、同进程混布的模式。<br />其具体部署形式可以参考 [**Broker 部署指南**](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/bmpnil7eq36uy5fn)。
+Broker 的部署可以是单节点的，也可以是集群式的，甚至支持同机器、同进程混布的模式。<br />其具体部署形式可以参考 [**Broker 部署指南**](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_bmpnil7eq36uy5fn/)。
 <a name="Mk0pV"></a>
 ### 2.2 NameServer
 **NameServer** 是 RocketMQ 的路由服务集群，它不保存任何消息数据，而是维护着所有 Broker 的路由信息（包括 Broker 存活情况、各 topic 的路由信息等）。Producer 和 Consumer 在发送或订阅消息前，都需要先从 NameServer 获取 Broker 的路由信息，之后才能正确地与 Broker 通信。NameServer 支持集群部署，以确保高可用。
 
-该组件的部署相对简单，可以参见文档 [**NameServer 部署指南**](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/tncndnkqzud0055o)。
+该组件的部署相对简单，可以参见文档 [**NameServer 部署指南**](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_tncndnkqzud0055o/)。
 <a name="AYI26"></a>
 ### 2.3 Proxy
 **Proxy** 是 RocketMQ 为了提高性能和简化客户端接入而引入的一个可选组件。它作为一个轻量级的代理服务器，位于客户端与 Broker 之间，主要职责包括：
@@ -36,17 +35,17 @@ Broker 的部署可以是单节点的，也可以是集群式的，甚至支持�
 - **安全控制**：可以作为一层安全网关，实现访问控制、鉴权等功能。
 - **网络优化**：通过缓存、连接复用等技术优化网络通信效率。
 
-该组件的部署相对独立，可以选用不同模式进行部署，如 Local 模式以及 Cluster 模式，你可以参考[**Proxy 部署指南**](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/xa4fgvpbunrvehbf)进行部署。
+该组件的部署相对独立，可以选用不同模式进行部署，如 Local 模式以及 Cluster 模式，你可以参考[**Proxy 部署指南**](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_xa4fgvpbunrvehbf/)进行部署。
 <a name="nUMfI"></a>
 ### 2.4 Controller
 **Controller**是 RocketMQ 5.0 新增的组件，它充当控制平面的角色，负责管理和协调系统的整体状态。它主要出现在可切换架构的部署过程中，如 Broker 宕机时，它将进行调度，对 Broker 集群进行选举管理。Controller 本身也支持集群部署，基于 Raft 实现容灾。
 
-该组件的部署可以参考[**Broker 部署指南**](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/bmpnil7eq36uy5fn)中的主备自动切换模式部署指南章节。
+该组件的部署可以参考[**Broker 部署指南**](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_bmpnil7eq36uy5fn/)中的主备自动切换模式部署指南章节。
 <a name="GYq1q"></a>
 ### 2.5 Dashboard
 **RocketMQ Dashboard** 是 RocketMQ 提供的一款可视化管理界面，它允许用户通过网页浏览器直观地监控和管理 RocketMQ 集群的状态，包括但不限于查看消息队列、消费进度、Broker 健康状况、主题配置、消费组详情等信息。Dashboard 的存在大大提升了运维人员对 RocketMQ 集群的监控能力和管理效率。
 
-该组件的部署可以参考[**DashBoard 部署指南**](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/fn65r094u26he62t)。
+该组件的部署可以参考[**DashBoard 部署指南**](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_fn65r094u26he62t/)。
 
 <a name="pjloM"></a>
 ## 三、常见部署形态介绍

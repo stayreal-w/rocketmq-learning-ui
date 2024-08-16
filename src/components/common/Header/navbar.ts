@@ -15,13 +15,31 @@ export default [
     label: "社区",
     trigger: "click",
     target: "_self",
-    route: "/community/meetup/",
+    route: "/community/forum/",
   },
   {
-    label: "学习",
+    label: "博客",
     trigger: "click",
     target: "_self",
     route: "/learning/",
+  },
+  {
+    label: "教程",
+    trigger: "click",
+    target: "_self",
+    route: "/course/baseLearn/rocketmq_learning-framework/",
+  },
+  {
+    label: "版本",
+    trigger: "click",
+    target: "_self",
+    route: "/course/version/apacherocketmq-530/",
+  },
+  {
+    label: "部署",
+    trigger: "click",
+    target: "_self",
+    route: "/course/deploy/rocketmq_learning-gvr7dx_awbbpb_ogr2blaw8vy3tv14/",
   },
   {
     label: "答疑样例",

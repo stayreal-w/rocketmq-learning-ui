@@ -2,9 +2,9 @@
 title: "深度剖析 RocketMQ 5.0 之消息进阶：如何支撑复杂业务消息场景？"
 description: "深度剖析 RocketMQ 5.0，消息进阶：如何支撑复杂业务消息场景？"
 date: "2024-08-09"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+tags: ["explore"]
+author: "隆基"
+img: "https://img.alicdn.com/imgextra/i2/O1CN016eTQJ31kGV3yGgeqw_!!6000000004656-2-tps-596-360.png"
 ---
 
 作者 | 隆基

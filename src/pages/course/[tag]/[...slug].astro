@@ -3,8 +3,6 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import BlogPost from "@components/markdownSet/MarkdownDetail.astro";
 import TocComponent from "@components/markdownSet/TocComponents/TocComponent.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { Button } from "@serverless-cd/goat-ui";
-import { Icon } from "@astrojs/starlight/components";
 import Sidebar from "@components/starlight/Sidebar.astro";
 import { useTranslations } from "@i18n/util";
 import { SITE } from "@utils/config";
@@ -12,12 +10,41 @@ import Pagination from "@astrojs/starlight/components/Pagination.astro";
 
 const t = useTranslations(Astro);
 
+// 教程页所有tag
+export const ALL_COURSE_TAG = [
+  {
+    type: "group",
+    label: "基础学习资料",
+    category: "baseLearn",
+    entries: [],
+  },
+  {
+    type: "group",
+    label: "版本",
+    category: "version",
+    entries: [],
+  },
+  {
+    type: "group",
+    label: "部署",
+    category: "deploy",
+    entries: [],
+  },
+];
+
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: post,
-  }));
+  const posts = await getCollection("course");
+  const allTags = ALL_COURSE_TAG.map((item) => item.category);
+
+  return allTags.flatMap((tag) => {
+    const filteredPosts = posts.filter((post) =>
+      post.data?.tags?.includes(tag)
+    );
+    return filteredPosts.map((post) => ({
+      params: { tag: tag, slug: post.slug },
+      props: post,
+    }));
+  });
 }
 
 type Props = CollectionEntry<"blog">;
@@ -26,35 +53,51 @@ const post = Astro.props;
 
 const { Content, headings } = await post.render();
 
-const posts = await getCollection("blog");
+const posts = await getCollection("course");
 
 const sortedPosts = posts.sort(
   (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
 );
 
-const articlePosts = [
-  {
-    type: "group",
-    label: "全部文章",
-    entries: [],
-  },
-];
+const currentPostId = post.id;
 
-let currentIndex;
-
-sortedPosts.forEach((item) => {
-  if (post.id === item.id) currentIndex = articlePosts[0].entries.length;
-  articlePosts[0].entries.push({
-    type: "link",
-    label: item.data.title,
-    href: `/learning/${item.slug}/`,
-    isCurrent: post.id === item.id,
-    attrs: {},
+ALL_COURSE_TAG.forEach((a) => {
+  const tagEntries = [];
+  sortedPosts.forEach((item, index) => {
+    if (item.data.tags.includes(a.category)) {
+      let isCurrent = false;
+      if (item.id === currentPostId) {
+        isCurrent = true;
+      }
+      const existingEntry = a.entries.find(
+        (entry) => entry.label === item.data.title
+      );
+      if (!existingEntry) {
+        // 不存在则创建新的entry
+        tagEntries.push({
+          id: item.id,
+          type: "link",
+          label: item.data.title,
+          href: `/course/${a.category}/${item.slug}/`,
+          isCurrent: isCurrent,
+          attrs: {},
+        });
+      } else {
+        // 已存在则仅标记isCurrent
+        existingEntry.isCurrent = isCurrent;
+        tagEntries.push(existingEntry);
+      }
+    }
   });
+  a.entries = tagEntries; // 覆盖原始entries以避免重复
 });
 
-const prev = articlePosts[0].entries[currentIndex - 1];
-const next = articlePosts[0].entries[currentIndex + 1];
+const entries = ALL_COURSE_TAG.flatMap((item) => item.entries);
+// 找到当前文章在排序后的文章列表中的位置
+const currentIndex = entries.findIndex((item) => item.id === currentPostId);
+const prev = currentIndex > 0 ? entries[currentIndex - 1] : null;
+const next =
+  currentIndex < entries.length - 1 ? entries[currentIndex + 1] : null;
 const baseLayout_title = post?.data?.title || `${SITE.name} Blog`;
 ---
 
@@ -64,17 +107,17 @@ const baseLayout_title = post?.data?.title || `${SITE.name} Blog`;
       <div
         class="w-[20%] sidebar-content fixed overflow-auto h-full hidden 2xl:inline-block xl:inline-block lg:inline-block md:inline-block"
       >
-        <Sidebar sidebar={articlePosts} />
+        <Sidebar sidebar={ALL_COURSE_TAG} />
       </div>
       <div
         class="w-full 2xl:ml-[20%] xl:ml-[20%] lg:ml-[20%] md:ml-[20%] 2xl:w-[60%] xl:w-[60%] lg:w-[80%] md:w-[80%] inline-block"
       >
-        <div id="back-btn-learning" class="pt-4 pl-6">
+        <!-- <div id="back-btn-learning" class="pt-4 pl-6">
           <Button variant="secondary" target="_self" class="rounded-3xl">
             <Icon name="left-arrow" class="text-lg align-middle" />
             <span class="ml-0.5">BACK</span>
           </Button>
-        </div>
+        </div> -->
         <BlogPost {...post.data}>
           <Content />
         </BlogPost>
@@ -103,7 +146,7 @@ const baseLayout_title = post?.data?.title || `${SITE.name} Blog`;
     </div>
   </BaseLayout>
 </span>
-<script>
+<!-- <script>
   function addBackBtnClick() {
     const url = new URL(window.location.href);
     let source = url.searchParams.get("source");
@@ -137,7 +180,7 @@ const baseLayout_title = post?.data?.title || `${SITE.name} Blog`;
   }
   document.addEventListener("astro:page-load", addBackBtnClick);
   document.addEventListener("DOMContentLoaded", addBackBtnClick);
-</script>
+</script> -->
 
 <style is:global>
   .blog-slug-wrapper {

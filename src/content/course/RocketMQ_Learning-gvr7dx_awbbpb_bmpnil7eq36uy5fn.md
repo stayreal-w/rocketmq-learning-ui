@@ -1,10 +1,9 @@
 ---
 title: "Broker 部署指南"
 description: "Broker 部署指南"
-date: "2024-08-15"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+date: "2024-08-13"
+tags: ["deploy"]
+author: ""
 ---
 
 <a name="Q8QWN"></a>
@@ -33,7 +32,7 @@ BrokerContainer 是一种 RocketMQ 特有的混布手段，它能够在单个进
 本文将介绍单节点 Broker 的部署，通过本文，你能够在一台机器上启动一个 Broker 进程，提供基本的消息收发服务。若你需要多个 Broker 节点一起服务，则可以通过在不同机器上重复本文档所述的部署工作，部署不同 BrokerName 的 Broker 节点实现。
 <a name="Cci26"></a>
 ### 准备工作
-进行本文部署工作前，你需要先完成[前置准备工作](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/owt0w53vl6wazv91)，以及[NamerServer 部署](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/tncndnkqzud0055o)。你需要获取之前部署完成的 NameServer IP，为你部署的 Broker 提供路由服务。<br />本文中，NameServer 的 IP 使用 ${NameServer IP} 代表，部署过程中需要替换为你的 NameServer IP。
+进行本文部署工作前，你需要先完成[前置准备工作](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_owt0w53vl6wazv91/)，以及[NamerServer 部署](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_tncndnkqzud0055o/)。你需要获取之前部署完成的 NameServer IP，为你部署的 Broker 提供路由服务。<br />本文中，NameServer 的 IP 使用 ${NameServer IP} 代表，部署过程中需要替换为你的 NameServer IP。
 <a name="mt9d8"></a>
 ### 启动一个 Broker
 在 RocketMQ 文件夹下，你可以运行下面的指令启动一台 Broker:
@@ -75,7 +74,7 @@ nohup sh bin/mqbroker -n ${NameServer IP}:9876 -c conf/2m-noslave/broker-b.prope
 需要注意的是，这个和单节点模式不同的地方在于，通过本文档部署的 Broker 共享同一个 BrokerName，它们仅仅是角色不同。而通过单节点模式部署多个 Broker，它们之间的 BrokerName 是不同的，彼此之间没有灾备能力。
 <a name="CfESO"></a>
 ### 准备工作
-在开始工作之前，你需要做好 [前置准备工作](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/owt0w53vl6wazv91)，并[部署完成集群 NameServer](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/tncndnkqzud0055o)。你需要获取之前部署完成的 NameServer IP，为你部署的 Broker 提供路由服务。
+在开始工作之前，你需要做好 [前置准备工作](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_owt0w53vl6wazv91/)，并[部署完成集群 NameServer](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_tncndnkqzud0055o/)。你需要获取之前部署完成的 NameServer IP，为你部署的 Broker 提供路由服务。
 
 本文中，NameServer 的 IP 使用 ${NameServer IP} 代表，部署过程中需要替换为你的 NameServer IP。注意，在脚本中使用这个 NameServer IP 的大部分情况下，后面需要跟上端口号，一般是 “:9876”。
 
@@ -137,7 +136,7 @@ flushDiskType=SYNC_FLUSH
 BrokerContainer 是一种 RocketMQ 特有的混布手段，它能够在单个进程中同时启动多个 Broker。
 <a name="JwUYM"></a>
 ### 准备工作
-在使用 BrokerContainer 启动 Broker 时，请先完成[前置准备工作](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/owt0w53vl6wazv91)，安装好 Java，并准备好 RocketMQ 的相关文件。此外，请先按照[NameServer 部署指南](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/tncndnkqzud0055o)，启动完成 NameServer 节点。你需要获取之前部署完成的 NameServer IP，为你部署的 Broker 提供路由服务。
+在使用 BrokerContainer 启动 Broker 时，请先完成[前置准备工作](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_owt0w53vl6wazv91/)，安装好 Java，并准备好 RocketMQ 的相关文件。此外，请先按照[NameServer 部署指南](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_tncndnkqzud0055o/)，启动完成 NameServer 节点。你需要获取之前部署完成的 NameServer IP，为你部署的 Broker 提供路由服务。
 
 本文中，NameServer 的 IP 使用 ${NameServerIP} 代表，部署过程中需要替换为你的 NameServer IP。注意，在脚本中使用这个 NameServer IP 的大部分情况下，后面需要跟上端口号，一般是“:9876”。
 
@@ -240,7 +239,7 @@ $ sh bin/mqadmin addBroker -c 127.0.0.1:10811 -b conf/container/2container-2m-2s
 Controller 部署有两种方式。一种是嵌入于 NameServer 进行部署，可以通过配置 enableControllerInNamesrv 打开（可以选择性打开，并不强制要求每一台 NameServer 都打开），在该模式下，NameServer 本身能力仍然是无状态的，也就是内嵌模式下若 NameServer 挂掉多数派，只影响切换能力，不影响原来路由获取等功能。另一种是独立部署，需要单独部署 Controller 组件。
 <a name="FXYAA"></a>
 ### 前置工作
-在进行本文的部署工作前，你需要完成[前置准备工作](https://yuque.alibaba-inc.com/juntao.jjt/ng2i76/whzf64nhq910i1b0)。完成 JDK 的安装，以及 RocketMQ 安装包的获取。
+在进行本文的部署工作前，你需要完成[前置准备工作](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_owt0w53vl6wazv91/)。完成 JDK 的安装，以及 RocketMQ 安装包的获取。
 <a name="aHsbE"></a>
 ### Controller 部署
 <a name="akqcX"></a>
@@ -308,7 +307,7 @@ nohup sh bin/mqnamesrv -c conf/namesrv-n2.conf&
 #### 单独部署 Controller
 ![](https://img.alicdn.com/imgextra/i3/O1CN0158JVJR1IdZmFZwKVr_!!6000000000916-0-tps-2970-892.jpg)
 
-Controller 可以单独被部署在集群中。不过独立部署 Controller 后，仍然需要单独部署 NameServer 提供路由发现能力。也就是说，你需要遵循[NameServer 部署指南](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/tncndnkqzud0055o)完成部署工作。
+Controller 可以单独被部署在集群中。不过独立部署 Controller 后，仍然需要单独部署 NameServer 提供路由发现能力。也就是说，你需要遵循[NameServer 部署指南](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_tncndnkqzud0055o/)完成部署工作。
 
 在启动 Controller 前，你需要准备好其配置文件。在这里，我们需要填入三台 Controller 的 IP 地址、端口号，并指定本配置文件的角色 id。我们默认在 9878 端口运行 controller，则 n0 节点 controller 的配置文件如下：
 ```bash

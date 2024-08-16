@@ -1,10 +1,9 @@
 ---
 title: "Proxy 部署指南"
 description: "Proxy 部署指南"
-date: "2024-08-15"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+date: "2024-08-12"
+tags: ["deploy"]
+author: ""
 ---
 
 <a name="UyaF5"></a>
@@ -26,7 +25,7 @@ Proxy 是一个较为独立的组件，你可以将其与 Broker 部署在一起
 
 <a name="U0LfX"></a>
 ### 前置工作
-在开始工作之前，你需要做好 [前置准备工作](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/owt0w53vl6wazv91)，并[部署完成集群 NameServer](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/tncndnkqzud0055o)。你需要获取之前部署完成的 NameServer IP，为你部署的 Broker 提供路由服务。
+在开始工作之前，你需要做好 [前置准备工作](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_owt0w53vl6wazv91/)，并[部署完成集群 NameServer](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_tncndnkqzud0055o/)。你需要获取之前部署完成的 NameServer IP，为你部署的 Broker 提供路由服务。
 
 本文中，NameServer 的 IP 使用 ${NameServer IP} 代表，部署过程中需要替换为你的 NameServer IP。注意，在脚本中使用这个 NameServer IP 的大部分情况下，后面需要跟上端口号，一般是 “:9876”。
 <a name="qrWbv"></a>
@@ -52,7 +51,7 @@ nohup sh bin/mqbroker -n localhost:9876 -c conf/broker.conf --enable-proxy &
 ```
 所以只需要在正常启动 broker 的命令之后跟上 “--enable-proxy ”，即可在 broker 本地启动一个 proxy 代理。
 
-至于 broker 集群的部署，可以参考 [Broker 部署指南](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/bmpnil7eq36uy5fn) 系列文章：
+至于 broker 集群的部署，可以参考 [Broker 部署指南](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_bmpnil7eq36uy5fn/) 系列文章：
 
    1. 单节点的 Broker 部署，可以参考 单节点模式部署指南 章节。
    2. 集群式的部署，可以参考 主备无切换模式部署指南 章节。
@@ -66,11 +65,11 @@ Proxy 是一个较为独立的组件，你可以将其与 Broker 部署在一起
 ![](https://img.alicdn.com/imgextra/i4/O1CN01ovdF6G21l2wmz59vL_!!6000000007024-0-tps-1868-813.jpg)
 <a name="jc0jh"></a>
 ### 前置工作
-在开始工作之前，你需要做好 [前置准备工作](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/owt0w53vl6wazv91)，并[部署完成集群 NameServer](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/tncndnkqzud0055o)。你需要获取之前部署完成的 NameServer IP，为你部署的 Broker 提供路由服务。
+在开始工作之前，你需要做好 [前置准备工作](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_owt0w53vl6wazv91/)，并[部署完成集群 NameServer](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_tncndnkqzud0055o/)。你需要获取之前部署完成的 NameServer IP，为你部署的 Broker 提供路由服务。
 
 本文中，NameServer 的 IP 使用 ${NameServer IP} 代表，部署过程中需要替换为你的 NameServer IP。注意，在脚本中使用这个 NameServer IP的大部分情况下，后面需要跟上端口号，一般是 “:9876”。
 
-此外，由于集群模式的 Proxy 部署与 Broker 相对独立，可以在已经部署好的 Broker 集群上额外部署 Proxy 集群。至于 broker 集群的部署，可以参考 [Broker 部署指南](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/bmpnil7eq36uy5fn) 系列文章：
+此外，由于集群模式的 Proxy 部署与 Broker 相对独立，可以在已经部署好的 Broker 集群上额外部署 Proxy 集群。至于 broker 集群的部署，可以参考 [Broker 部署指南](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_bmpnil7eq36uy5fn/) 系列文章：
 
    1. 单节点的 Broker 部署，可以参考 单节点模式部署指南 章节。
    2. 集群式的部署，可以参考 主备无切换模式部署指南 章节。

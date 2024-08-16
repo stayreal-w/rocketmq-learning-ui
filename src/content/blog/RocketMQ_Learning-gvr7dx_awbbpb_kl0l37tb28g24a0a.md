@@ -2,9 +2,9 @@
 title: "深度剖析 RocketMQ 5.0 之 IoT 消息：物联网需要什么样的消息技术？"
 description: "深度剖析 RocketMQ 5.0 之 IoT 消息：物联网需要什么样的消息技术？"
 date: "2024-08-09"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+tags: ["explore"]
+author: "隆基"
+img: "https://img.alicdn.com/imgextra/i1/O1CN01iRqeBW1ccT8TTKgp5_!!6000000003621-2-tps-596-360.png"
 ---
 
 作者｜隆基

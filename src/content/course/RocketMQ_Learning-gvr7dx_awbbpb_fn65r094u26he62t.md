@@ -1,10 +1,10 @@
 ---
 title: "DashBoard 部署指南"
 description: "DashBoard 部署指南"
-date: "2024-08-15"
+date: "2024-08-11"
 category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+tags: ["deploy"]
+author: ""
 ---
 
  `RocketMQ Dashboard` 是 RocketMQ 的管控利器，为用户提供客户端和应用程序的各种事件、性能的统计信息，支持以可视化工具代替 Topic 配置、Broker 管理等命令行操作。
