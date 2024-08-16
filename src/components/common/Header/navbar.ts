@@ -15,7 +15,7 @@ export default [
     label: "社区",
     trigger: "click",
     target: "_self",
-    route: "/community/forum/",
+    route: "/community/meetup/",
   },
   {
     label: "博客",
