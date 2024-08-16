@@ -1,10 +1,9 @@
 ---
 title: "Apache RocketMQ 5.1.1"
 description: "Apache RocketMQ 5.1.1"
-date: "2024-08-16"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+date: "2023-05-15"
+tags: ["version"]
+author: ""
 ---
 
 2023年5月15号发布

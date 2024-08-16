@@ -1,10 +1,9 @@
 ---
 title: "Quick Start 快速部署"
 description: "Quick Start 快速部署"
-date: "2024-08-16"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+date: "2024-08-10"
+tags: ["deploy"]
+author: ""
 ---
 
 <a name="hQld2"></a>
@@ -217,7 +216,7 @@ docker stop rmqbroker
    1. 64 位操作系统
    2. 64 位 JDK 1.8+
 
-具体可参照 [前置准备工作指南](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/owt0w53vl6wazv91) 进行配置。
+具体可参照 [前置准备工作指南](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_owt0w53vl6wazv91/) 进行配置。
 <a name="fe642368"></a>
 ### 1. 编写 docker-compose
 为了快速启动并运行 RockerMQ 集群，您可以使用以下模板通过修改或添加环境部分中的配置来创建 docker-compose.yml 文件。
@@ -410,7 +409,7 @@ docker-compose down
 该文档主要介绍如何快速构建自动主从切换的 RocketMQ 集群，其架构如上图所示，主要增加支持自动主从切换的 Controller 组件，其可以独立部署也可以内嵌在 NameServer 中。
 <a name="d1tJR"></a>
 ### 1. 前置准备工作
-你需要准备好运行 RocketMQ 的环境，以及可运行文件。具体可以参考[前置准备工作指南](https://yuque.alibaba-inc.com/gvr7dx/awbbpb/owt0w53vl6wazv91)。
+你需要准备好运行 RocketMQ 的环境，以及可运行文件。具体可以参考[前置准备工作指南](/course/deploy/rocketmq_learning-gvr7dx_awbbpb_owt0w53vl6wazv91/)。
 <a name="DYqT8"></a>
 ### 2. 快速部署
 在你的 RocketMQ 目录下，运行如下脚本：

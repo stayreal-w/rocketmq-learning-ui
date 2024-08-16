@@ -35,12 +35,12 @@ export default [
     target: "_self",
     route: "/course/version/apacherocketmq-530/",
   },
-  // {
-  //   label: "部署",
-  //   trigger: "click",
-  //   target: "_self",
-  //   route: "/course/deploy/alicloudfunction/",
-  // },
+  {
+    label: "部署",
+    trigger: "click",
+    target: "_self",
+    route: "/course/deploy/rocketmq_learning-gvr7dx_awbbpb_ogr2blaw8vy3tv14/",
+  },
   {
     label: "答疑样例",
     trigger: "click",

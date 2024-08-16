@@ -1,10 +1,14 @@
 ---
 title: "Apache RocketMQ 5.1.4"
 description: "Apache RocketMQ 5.1.4"
-date: "2024-08-08"
+date: "2023-10-09"
 tags: ["version"]
 author: ""
 ---
+
+2023年10月9号发布
+<a name="kRDxa"></a>
+# Highlight 
 
 1. 多级存储模块优化，支持删除过期或者损坏的存储文件，优化消息读取、Topic 删除代码。 [#6952](https://github.com/apache/rocketmq/pull/6952)
 2. 顺序消息 Pop 消费模式优化，可重入优化[#6755](https://github.com/apache/rocketmq/pull/6755)。
@@ -14,3 +18,4 @@ author: ""
 6. 支持百万级队列元数据，基于 rocksdb 存储 RocketMQ 元数据。 [#7092](https://github.com/apache/rocketmq/pull/7092)
 
 更多细节详见[https://github.com/apache/rocketmq/releases/tag/rocketmq-all-5.1.4](https://github.com/apache/rocketmq/releases/tag/rocketmq-all-5.1.4)
+
