@@ -918,11 +918,11 @@ export const ALL_ARTICLE_TAG = [
 
 // 社区页tag
 export const COMMUNITY_TAG = [
-  {
-    type: 'forum',
-    title: "论坛",
-    href: '/community/forum/'
-  },
+  // {
+  //   type: 'forum',
+  //   title: "论坛",
+  //   href: '/community/forum/'
+  // },
   {
     type: 'meetup',
     title: "#Meetup",
