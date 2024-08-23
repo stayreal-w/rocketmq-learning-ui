@@ -43,7 +43,7 @@
 }
 
 .sl-markdown-content :is(h1, h2, h3, h4, h5, h6) {
-	color: theme('colors.model');
+	color: theme('colors.base-header');
 	line-height: var(--sl-line-height-headings);
 	font-weight: 600;
 }
@@ -77,7 +77,7 @@
 	color: var(--sl-color-text-accent);
 }
 .sl-markdown-content a:hover {
-	color: theme('colors.model');
+	color: theme('colors.base-header');
 }
 
 .sl-markdown-content code {
@@ -107,7 +107,7 @@
 .sl-markdown-content blockquote {
 	border-inline-start: 1.5px solid var(--sl-color-gray-5);
 	padding-inline-start: 1rem;
-	background-color: theme('colors.card');
+	background-color: theme('colors.secondary');
 }
 
 .sl-markdown-content table {
