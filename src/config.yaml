@@ -55,7 +55,7 @@ ui:
     neutral: "#121314"
     # 基础色，用做首页的背景色1
     base-100: "#161312"
-    # header背景色
+    # header背景色、文章内容小字颜色（新）
     base-header: "#121316"
     # footer背景色
     base-footer: "#161312"
@@ -95,6 +95,10 @@ ui:
     why: "#818598"
     #fork字体颜色
     fork: "#F6F8F8"
+    # 文章背景色
+    article-bg: "#FCFCFC"
+    # 文章内块引用背景色
+    blockquote: "#d3edd5"
 
 
 

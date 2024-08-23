@@ -109,7 +109,7 @@ const flattenSidebar = (sidebar) => {
 	.large {
     display: inline-block;
 		font-weight: 600;
-		color: theme("colors.model");
+		color: theme("colors.base-header");
 	}
 
 	.top-level > li + li {
@@ -145,14 +145,15 @@ const flattenSidebar = (sidebar) => {
 		display: block;
 		border-radius: 0.25rem;
 		text-decoration: none;
-		color: theme("colors.content");
+		color: theme("colors.base-header");
 		padding: 0.3em var(--sl-sidebar-item-padding-inline);
 		line-height: 1.4;
 	}
 
 	a:hover,
 	a:focus {
-		color: theme("colors.model");
+		/* color: theme("colors.primary"); */
+		font-weight: bold;
 	}
 
 	[aria-current="page"],

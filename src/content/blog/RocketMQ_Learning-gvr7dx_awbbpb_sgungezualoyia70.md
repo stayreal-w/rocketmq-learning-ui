@@ -1,10 +1,10 @@
 ---
-title: "稳健之筏：RocketMQ 携 RAFT 航向高可用之岸"
-description: "稳健之筏：RocketMQ 携 RAFT 航向高可用之岸"
+title: "一文详解 RocketMQ 如何利用 Raft 进行高可用保障"
+description: "一文详解 RocketMQ 如何利用 Raft 进行高可用保障"
 date: "2024-08-22"
-category: "article"
-keywords: ["RocketMQ_Learning"]
-authors: "heimanba"
+tags: ["explore"]
+author: "季俊涛"
+img: "https://img.alicdn.com/imgextra/i4/O1CN01qqyU5F1flZi93xzbU_!!6000000004047-0-tps-685-383.jpg"
 ---
 
 作者｜季俊涛

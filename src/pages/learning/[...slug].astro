@@ -60,7 +60,8 @@ const baseLayout_title = post?.data?.title || `${SITE.name} Blog`;
 
 <span class="blog-slug-wrapper">
   <BaseLayout align="docs" title={baseLayout_title}>
-    <div class="bg-base-100 text-content">
+    <!-- old class：bg-base-100 text-content -->
+    <div class="bg-artical-bg text-base-header">
       <div
         class="w-[20%] sidebar-content fixed overflow-auto h-full hidden 2xl:inline-block xl:inline-block lg:inline-block md:inline-block"
       >
@@ -154,7 +155,7 @@ const baseLayout_title = post?.data?.title || `${SITE.name} Blog`;
       padding: 1rem var(--sl-sidebar-pad-x);
     }
     .right-sidebar-panel h2 {
-      color: theme("colors.model");
+      color: theme("colors.base-header");
       font-size: var(--sl-text-base);
       font-weight: 600;
       line-height: var(--sl-line-height-headings);
@@ -164,23 +165,25 @@ const baseLayout_title = post?.data?.title || `${SITE.name} Blog`;
       display: block;
       font-size: var(--sl-text-xs);
       text-decoration: none;
-      color: theme("colors.content");
+      color: theme("colors.base-header");
       overflow-wrap: anywhere;
     }
     .right-sidebar-panel a:hover {
-      color: theme("colors.model");
+      /* color: theme("colors.model"); */
+      font-weight: bold;
     }
     .pagination-links a {
-      border: 1px solid var(--sl-color-gray-4);
-      color: theme("colors.content");
+      /* old style：border: 1px solid var(--sl-color-gray-4); */
+      border: 1px solid theme("colors.model");
+      color: theme("colors.base-header");
     }
 
     .pagination-links a:hover {
-      border-color: theme("colors.model");
+      border-color: var(--sl-color-gray-4);
     }
 
     .pagination-links .link-title {
-      color: theme("colors.content");
+      color: theme("colors.base-header");
     }
   }
 </style>
