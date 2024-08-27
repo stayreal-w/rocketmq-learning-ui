@@ -1,6 +1,6 @@
 ---
-title: "Apache RocketMQ 权威部署指南"
-description: "Apache RocketMQ 权威部署指南"
+title: "Apache RocketMQ 部署指南"
+description: "Apache RocketMQ 部署指南"
 date: "2024-08-16"
 tags: ["deploy"]
 author: ""
