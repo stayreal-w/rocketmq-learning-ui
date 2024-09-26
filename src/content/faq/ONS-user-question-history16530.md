@@ -1,9 +1,11 @@
 ---
 id: "question-history-16530"
 title: "rocketmq 端口有哪些？"
-date: "2024-08-08"
+date: "2024-09-26"
 category: "expertConsultation"
-description: "RocketMQ涉及多个组件，每个组件有不同的默认端口，具体如下：1. **RocketMQ Proxy**:   - **remoting协议访问端口** (`remotingListenPort`): 默认为8080。此端口用于Proxy的remoting协议通信。如需修改，可通过编辑`conf"
+description: "根据提供的我了解的信息，RocketMQ涉及的主要端口及其功能如下：1. **8080端口**：这是RocketMQ Proxy中默认的remoting协议访问端口（`remotingListenPort`）。此外，在RocketMQ Dashboard中也作为默认访问端口。如果需要更改这个端口号，"
+tags: ["rocketmq","端口","列表","介绍","使用","配置","注意事项"]
+keywords: ["rocketmq","端口","列表","介绍","使用","配置","注意事项"]
 ---
 
 ## 用户问题 ： 
@@ -12,21 +14,19 @@ description: "RocketMQ涉及多个组件，每个组件有不同的默认端口�
 ---------------
 ## 专家官方解答 ：
 
-RocketMQ涉及多个组件，每个组件有不同的默认端口，具体如下：
+根据提供的我了解的信息，RocketMQ涉及的主要端口及其功能如下：
 
-1. **RocketMQ Proxy**:
-   - **remoting协议访问端口** (`remotingListenPort`): 默认为8080。此端口用于Proxy的remoting协议通信。如需修改，可通过编辑`conf/rmq-proxy.json`配置文件实现。
-   - **gRPC协议访问端口** (`grpcServerPort`): 默认为8081。用于gRPC协议的访问，同样可在`rmq-proxy.json`中配置自定义端口。
+1. **8080端口**：这是RocketMQ Proxy中默认的remoting协议访问端口（`remotingListenPort`）。此外，在RocketMQ Dashboard中也作为默认访问端口。如果需要更改这个端口号，对于Proxy来说，可以通过修改配置文件`conf/rmq-proxy.json`来实现；而对于Dashboard，则是通过调整`application.yml`文件中的相关设置完成，参考链接为[这里](https://github.com/apache/rocketmq-dashboard/blob/master/src/main/resources/application.yml)。
 
-2. **RocketMQ Dashboard**:
-   - 访问端口: 默认为8080。Dashboard是RocketMQ的可视化监控管理界面，其端口可修改，操作方式是调整`spring`程序的`application.yml`配置文件，参考链接为[https://github.com/apache/rocketmq-dashboard/blob/master/src/main/resources/application.yml](https://github.com/apache/rocketmq-dashboard/blob/master/src/main/resources/application.yml)。
+2. **8081端口**：在RocketMQ Proxy里，该端口被指定为gRPC协议访问端口(`grpcServerPort`)。同样地，若需自定义此端口号，应编辑`rmq-proxy.json`配置文件。
 
-3. **RocketMQ Broker**:
-   - **默认访问端口** (`listenPort`): 通常为10911。Broker作为消息存储和转发的核心服务，此端口用于客户端与Broker的通信。要修改此端口，需编辑Broker的配置文件。
-   - **HA监听端口** (`haListenPort`): 默认为10912。此端口用于Master Broker与Slave Broker之间的主备通信，确保高可用性。修改方法同上，在Broker配置文件中调整`haListenPort`。
-   - **VIPChannel端口**: 默认情况下，VIPChannel使用的是`listenPort - 2`，即默认为10909。这是一种特殊设计的网络通道，用于优化高负载场景下的通信效率，也是在Broker配置中调整。
+3. **10911端口**：这是RocketMQ Broker组件默认使用的监听端口(`listenPort`)。要修改这一设定值，应该直接在Broker的配置文件内调整`listenPort`参数。
 
-综上所述，RocketMQ的关键端口包括8080(Proxy的remoting和Dashboard默认端口)、8081(Proxy的gRPC端口)、10911(Broker默认端口)、10912(Broker的HA端口)，以及基于Broker listenPort计算得出的VIPChannel默认端口10909。这些端口均可根据实际需求在各自的配置文件中进行调整。
+4. **10912端口**：被称为`haListenPort`，专门用于Master Broker与Slave Broker之间进行主备切换时的数据同步。如需改变此端口，同样需要在Broker的配置文件中寻找并更新`haListenPort`项。
+
+5. **10909端口**：一般情况下，它代表了Broker VIPChannel所用到的端口，默认计算方式为`listenPort - 2`（因此通常是10909）。VIPChannel是一种特别设计的网络通道，旨在优化高负载环境下的性能表现。如果想要变更这个特定端口，可以考虑调整`listenPort`或直接在配置中指定新的VIPChannel端口。
+
+综上所述，上述端口各自服务于RocketMQ不同组件之间的通信需求，并且大部分都可以通过修改相应的配置文件来自定义其实际使用值。希望这能帮助您更好地理解RocketMQ系统架构中的端口分配情况。
 
 
 <font color="#949494">---------------</font> 
@@ -35,6 +35,8 @@ RocketMQ涉及多个组件，每个组件有不同的默认端口，具体如下
 ## 参考链接 ：
 
 * 专家经验：rocketmq端口介绍 
+ 
+ * 专家经验：rocketmq 5.0 ACL相关问题 
 
 
  <font color="#949494">---------------</font> 
@@ -43,7 +45,12 @@ RocketMQ涉及多个组件，每个组件有不同的默认端口，具体如下
 
 ## <font color="#FF0000">答疑服务说明：</font> 
 
-本内容经由技术专家审阅的用户问答的镜像生成，我们提供了<font color="#FF0000">专家智能答疑服务</font>，在<font color="#FF0000">页面的右下的浮窗”专家答疑“</font>。您也可以访问 : [全局专家答疑](https://answer.opensource.alibaba.com/docs/intro) 。 咨询其他产品的的问题
+本内容经由技术专家审阅的用户问答的镜像生成，我们提供了<font color="#FF0000">专家智能答疑服务</font>,使用方法：
+用法1： 在<font color="#FF0000">页面的右下的浮窗”专家答疑“</font>。
+用法2： 点击[专家答疑页](https://answer.opensource.alibaba.com/docs/intro)（针对部分网站不支持插件嵌入的情况）
+### 另：
 
+
+有其他开源产品的使用问题？[点击访问阿里AI专家答疑服务](https://answer.opensource.alibaba.com/docs/intro)。
 ### 反馈
-如问答有错漏，欢迎点：[差评](https://ai.nacos.io/user/feedbackByEnhancerGradePOJOID?enhancerGradePOJOId=16531)给我们反馈。
+如问答有错漏，欢迎点：[差评](https://ai.nacos.io/user/feedbackByEnhancerGradePOJOID?enhancerGradePOJOId=17251)给我们反馈。

@@ -1,9 +1,11 @@
 ---
 id: "question-history-16747"
 title: "延迟消息的原理与使用详解"
-date: "2024-09-05"
+date: "2024-09-26"
 category: "expertConsultation"
-description: "RocketMQ延迟消息（也称为定时消息）的原理与使用详情可以详细解析如下：### 原理概述**定时消息**是RocketMQ提供的一种高级特性，允许消息在特定时间点之后才被消费者消费。其核心机制涉及以下几个阶段：1. **初始化与发送**：生产者在构建消息时，除了常规消息内容，还会设置一个期望的定"
+description: "### RocketMQ 延迟消息的原理与使用详解#### 1. 原理分析RocketMQ 提供了延迟消息功能，允许用户设置一个特定的时间点或延时后投递消息。这种特性在诸如订单处理、定时任务等场景下非常有用。根据我了解的信息中的信息，延迟消息和定时消息在本质上是相同的，都是基于设定的时间戳来触发消息"
+tags: ["rocketmq","延迟消息","原理","使用","详解"]
+keywords: ["rocketmq","延迟消息","原理","使用","详解"]
 ---
 
 ## 用户问题 ： 
@@ -12,41 +14,89 @@ description: "RocketMQ延迟消息（也称为定时消息）的原理与使用�
 ---------------
 ## 专家官方解答 ：
 
-RocketMQ延迟消息（也称为定时消息）的原理与使用详情可以详细解析如下：
+### RocketMQ 延迟消息的原理与使用详解
 
-### 原理概述
+#### 1. 原理分析
+RocketMQ 提供了延迟消息功能，允许用户设置一个特定的时间点或延时后投递消息。这种特性在诸如订单处理、定时任务等场景下非常有用。根据我了解的信息中的信息，延迟消息和定时消息在本质上是相同的，都是基于设定的时间戳来触发消息投递。
 
-**定时消息**是RocketMQ提供的一种高级特性，允许消息在特定时间点之后才被消费者消费。其核心机制涉及以下几个阶段：
+- **消息生命周期**：从初始化到最终被消费，延迟消息会经历几个关键阶段，包括初始化（构建消息）、定时中（存储等待触发时刻）、待消费（到达指定时间后重新写入普通队列）、消费中（由消费者处理）以及消费提交（标记为已处理）。如果遇到消费失败，系统还会尝试重试。
+- **精度与时长限制**：默认情况下，RocketMQ 的延迟消息支持秒级精度，并且最长可设置24小时内的延时。超过这个范围的消息会被立即投递。此外，对于具体的延时时长，需要通过预设的等级来指定，而不是任意值。
+- **实现机制**：服务端接收到带有延迟属性的消息后，并不会立即放入常规的消息队列，而是将其存放在专门的延迟存储区，直到达到设定的时间才释放给消费者。
 
-1. **初始化与发送**：生产者在构建消息时，除了常规消息内容，还会设置一个期望的定时时间（以毫秒级Unix时间戳表示），这个时间戳代表消息应被投递的未来时间点。消息随后被发送到RocketMQ服务端。
+#### 2. 使用步骤
+根据提供的资料，以下是使用 RocketMQ 发送和接收延迟消息的具体步骤：
 
-2. **定时中**：不同于普通消息直接进入消息队列等待消费，定时消息会被服务端特殊处理，存储在一个**定时存储系统**中，而非直接构建消息索引进入消费队列。在此期间，消息处于“等待”状态，直到其定时时间达到。
+- **创建主题**：
+  - 使用 `mqadmin` 工具更新或创建一个新的主题，并确保该主题支持延迟消息类型。命令示例如下：
+    ```shell
+    sh mqadmin updateTopic -n <nameserver_address> -t <topic_name> -c <cluster_name> -a +message.type=DELAY
+    ```
+  - 参数说明：
+    - `-n` 指定 NameServer 地址。
+    - `-t` 指定 Topic 名称。
+    - `-c` 指定集群名称。
+    - `-a` 添加额外属性，这里指定了 `+message.type=DELAY` 来启用延迟消息支持。
 
-3. **转为待消费**：一旦定时时间到达，服务端会将消息移入普通消息队列，使其变为可被消费者检索的状态。此时，消息对于下游消费者变得可见，等待被拉取或推送给消费者。
+- **发送延迟消息**：
+  - 创建一个 `DefaultMQProducer` 实例并启动它。
+  - 构造要发送的消息对象，设置其 `delayTimeLevel` 属性来指定延时时长级别。
+  - 调用 `send()` 方法将消息发送出去。
+  - 示例代码如下（Java）：
+    ```java
+    import org.apache.rocketmq.client.producer.DefaultMQProducer;
+    import org.apache.rocketmq.common.message.Message;
 
-4. **消费流程**：消息被消费者获取后，消费者会按照自身逻辑处理消息。若处理成功，消费者会向服务端确认消费；若未收到确认或确认超时，RocketMQ将根据消费重试策略尝试重新投递消息。
+    public class ScheduledMessageProducer {
+        public static void main(String[] args) throws Exception {
+            DefaultMQProducer producer = new DefaultMQProducer("ExampleProducerGroup");
+            producer.setNamesrvAddr("localhost:9876");
+            producer.start();
+            
+            Message message = new Message("TestTopic", ("Hello scheduled message").getBytes());
+            // 设置延时等级3, 这个消息将在10s之后发送
+            message.setDelayTimeLevel(3);
+            producer.send(message);
 
-5. **消息生命周期管理**：包括消费中、消费提交、以及最终消息删除等阶段，RocketMQ会根据配置的存储和清理策略来维护消息的生命周期。
+            producer.shutdown();
+        }
+    }
+    ```
 
-### 使用限制与建议
+- **消费延迟消息**：
+  - 启动一个 `DefaultMQPushConsumer` 并订阅相关主题。
+  - 注册一个 `MessageListenerConcurrently` 来处理传入的消息。
+  - 示例代码如下（Java）：
+    ```java
+    import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+    import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+    import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+    import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+    import org.apache.rocketmq.common.message.MessageExt;
+    import java.util.List;
 
-- **消息类型一致性**：确保定时消息仅发送到预设为支持延迟消息（`message.type=DELAY`）的主题上。
-- **定时精度**：尽管设置精度为毫秒级，但默认精度为1秒，且系统故障可能导致轻微延迟。
-- **避免大量消息同一时刻触发**：为防止瞬间高负载，应避免设置大量消息在同一时间点触发。
+    public class ScheduledMessageConsumer {
+        public static void main(String[] args) throws Exception {
+            DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("ExampleConsumer");
+            consumer.setNamesrvAddr("localhost:9876");
+            consumer.subscribe("TestTopic", "*");
 
-### 使用示例
+            consumer.registerMessageListener(new MessageListenerConcurrently() {
+                @Override
+                public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
+                    for (MessageExt msg : msgs) {
+                        System.out.println("Receive message[msgId=" + msg.getMsgId() + "] " + (System.currentTimeMillis() - msg.getStoreTimestamp()) + "ms later");
+                    }
+                    return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+                }
+            });
 
-#### 创建支持延迟消息的主题
-使用`mqadmin`命令行工具更新或创建一个支持延迟消息的主题，例如：
-```shell
-sh mqadmin updateTopic -n <nameserver_address> -t <topic_name> -c <cluster_name> -a +message.type=DELAY
-```
+            consumer.start();
+        }
+    }
+    ```
 
-#### 发送延迟消息
-以Java为例，发送延迟消息时需指定消息的定时时间戳，具体实现细节可参考官方文档提供的示例代码链接：[Apache RocketMQ延迟消息示例](https://rocketmq.apache.org/zh/docs/featureBehavior/02delaymessage)
-
-### 结论
-通过理解RocketMQ延迟消息的原理，遵循其使用限制，并依据提供的使用示例进行实践，开发者可以高效地集成定时消息功能，以满足分布式系统中的定时调度和任务超时处理等需求，实现高可靠性和高性能的定时触发逻辑。务必注意定时消息的配置细节和最佳实践，以确保系统的稳定运行。
+#### 3. 解释
+以上步骤首先定义了一个可以发送延迟消息的主题，然后通过设置消息的 `delayTimeLevel` 属性来控制其何时被消费者接收到。消费者则持续监听指定主题上的新消息，并在消息到达时执行相应的逻辑。这种方法非常适合于那些需要在未来某个确定时间点执行的操作，比如自动取消未支付订单等。
 
 
 <font color="#949494">---------------</font> 
@@ -55,6 +105,10 @@ sh mqadmin updateTopic -n <nameserver_address> -t <topic_name> -c <cluster_name>
 ## 参考链接 ：
 
 * 专家经验：定时/延时消息 
+ 
+ * 专家经验：rocketmq  Schedule example 
+ 
+ * 专家经验：rocketmq  样例 
 
 
  <font color="#949494">---------------</font> 
@@ -63,7 +117,12 @@ sh mqadmin updateTopic -n <nameserver_address> -t <topic_name> -c <cluster_name>
 
 ## <font color="#FF0000">答疑服务说明：</font> 
 
-本内容经由技术专家审阅的用户问答的镜像生成，我们提供了<font color="#FF0000">专家智能答疑服务</font>，在<font color="#FF0000">页面的右下的浮窗”专家答疑“</font>。您也可以访问 : [全局专家答疑](https://answer.opensource.alibaba.com/docs/intro) 。 咨询其他产品的的问题
+本内容经由技术专家审阅的用户问答的镜像生成，我们提供了<font color="#FF0000">专家智能答疑服务</font>,使用方法：
+用法1： 在<font color="#FF0000">页面的右下的浮窗”专家答疑“</font>。
+用法2： 点击[专家答疑页](https://answer.opensource.alibaba.com/docs/intro)（针对部分网站不支持插件嵌入的情况）
+### 另：
 
+
+有其他开源产品的使用问题？[点击访问阿里AI专家答疑服务](https://answer.opensource.alibaba.com/docs/intro)。
 ### 反馈
-如问答有错漏，欢迎点：[差评](https://ai.nacos.io/user/feedbackByEnhancerGradePOJOID?enhancerGradePOJOId=16767)给我们反馈。
+如问答有错漏，欢迎点：[差评](https://ai.nacos.io/user/feedbackByEnhancerGradePOJOID?enhancerGradePOJOId=17287)给我们反馈。
