@@ -1,9 +1,11 @@
 ---
 id: "question-history-16387"
 title: "队列粒度负载均衡怎么做？"
-date: "2024-07-30"
+date: "2024-09-26"
 category: "expertConsultation"
-description: "RocketMQ的队列粒度负载均衡策略主要应用于历史版本的消费者（服务端4.x/3.x版本），如PullConsumer、DefaultPushConsumer等。以下是根据已知知识如何实施队列粒度负载均衡的具体说明：### 实施步骤与逻辑分析：1. **理解策略原理**：队列粒度负载均衡的核心在于"
+description: "### 问题分析RocketMQ中的队列粒度负载均衡策略主要用于历史版本（服务端4.x/3.x版本）的消费者，包括PullConsumer、DefaultPushConsumer、DefaultPullConsumer、LitePullConsumer等。在这种策略下，同一消费者分组内的多个消费者将"
+tags: ["rocketmq","队列","粒度","负载均衡","实现","方法"]
+keywords: ["rocketmq","队列","粒度","负载均衡","实现","方法"]
 ---
 
 ## 用户问题 ： 
@@ -12,30 +14,36 @@ description: "RocketMQ的队列粒度负载均衡策略主要应用于历史版�
 ---------------
 ## 专家官方解答 ：
 
-RocketMQ的队列粒度负载均衡策略主要应用于历史版本的消费者（服务端4.x/3.x版本），如PullConsumer、DefaultPushConsumer等。以下是根据已知知识如何实施队列粒度负载均衡的具体说明：
+### 问题分析
+RocketMQ中的队列粒度负载均衡策略主要用于历史版本（服务端4.x/3.x版本）的消费者，包括PullConsumer、DefaultPushConsumer、DefaultPullConsumer、LitePullConsumer等。在这种策略下，同一消费者分组内的多个消费者将按照队列粒度消费消息，即每个队列仅被一个消费者消费。
 
-### 实施步骤与逻辑分析：
+### 具体步骤
+根据我了解的信息中提供的信息，队列粒度负载均衡的具体实现步骤如下：
 
-1. **理解策略原理**：队列粒度负载均衡的核心在于，确保主题中的每个队列仅被消费者分组中的一个消费者消费。这意味着，系统会基于队列数量和服务内消费者的数量，通过内置算法分配队列给消费者。每个消费者负责自己分配到的队列消息的拉取、消费及位点的提交与持久化。
+1. **启动Consumer**：首先启动RocketMQ Consumer实例，确保它属于特定的消费者分组。
+2. **心跳包发送**：Consumer启动后，会通过定时任务不断地向RocketMQ集群中的所有Broker实例发送心跳包。心跳包中包含了消息消费分组名称、订阅关系集合、消息通信模式和客户端ID等信息。
+3. **维护元数据**：Broker在接收到Consumer的心跳消息后，会将其维护在`ConsumerManager`的本地缓存变量`consumerTable`中，并将封装后的客户端网络通道信息保存在`channelInfoTable`中，为之后做负载均衡提供依据。
+4. **启动负载均衡服务线程**：在Consumer实例的启动流程中，会完成负载均衡服务线程`RebalanceService`的启动，该线程每隔20秒执行一次。
+5. **调用`rebalanceByTopic`方法**：`RebalanceService`线程的`run()`方法最终调用的是`RebalanceImpl`类的`rebalanceByTopic()`方法。该方法是实现Consumer端负载均衡的核心。
+6. **获取消息消费队列集合**：从`RebalanceImpl`实例的本地缓存变量`topicSubscribeInfoTable`中，获取该Topic主题下的消息消费队列集合（`mqSet`）。
+7. **获取消费者Id列表**：根据Topic和消费者组作为参数调用`mQClientFactory.findConsumerIdList()`方法向Broker端发送RPC请求，获取该消费组下的消费者Id列表。
+8. **计算待拉取的消息队列**：对Topic下的消息消费队列和消费者Id进行排序，然后使用消息队列分配策略算法（默认为平均分配算法）计算出待拉取的消息队列。
+9. **更新`processQueueTable`**：调用`updateProcessQueueTableInRebalance()`方法，将分配到的消息队列集合与`processQueueTable`做一个过滤比对。
+   - 对于互不包含的队列，设置`Dropped`属性为`true`，并尝试移除这些队列。
+   - 对于交集部分，判断是否已经过期，如果是Push模式，设置`Dropped`属性为`true`，并尝试移除这些队列。
+10. **创建`ProcessQueue`对象**：为过滤后的消息队列集合中的每个`MessageQueue`创建一个`ProcessQueue`对象，并存入`RebalanceImpl`的`processQueueTable`队列中。
+11. **创建拉取请求**：调用`computePullFromWhere(MessageQueue mq)`方法获取`MessageQueue`对象的下一个进度消费值`offset`，随后填充至`pullRequest`对象属性中，并将`pullRequest`添加到拉取列表`pullRequestList`中。
+12. **发起Pull消息请求**：执行`dispatchPullRequest()`方法，将Pull消息的请求对象`PullRequest`依次放入`PullMessageService`服务线程的阻塞队列`pullRequestQueue`中，待该服务线程取出后向Broker端发起Pull消息的请求。
 
-2. **配置与初始化**：在历史版本的RocketMQ客户端，如使用`PullConsumer`，队列粒度的负载均衡是默认启用的，无需特别配置。消费者实例在初始化时，会自动参与队列分配的协商过程。
+### 解释
+- **心跳包发送**：心跳包用于Broker端维护消费者的状态信息，确保Broker能够及时了解消费者的在线情况。
+- **元数据维护**：`consumerTable`和`channelInfoTable`用于存储消费者的信息，为负载均衡提供必要的数据支持。
+- **负载均衡服务线程**：`RebalanceService`定期执行负载均衡操作，确保消息队列的分配始终是最新的。
+- **消息队列分配**：通过平均分配算法，确保每个消费者都能均匀地分配到消息队列，避免某些消费者处理过多或过少的消息。
+- **`processQueueTable`更新**：通过过滤和更新`processQueueTable`，确保每个消费者只处理分配给它的消息队列，避免重复消费或漏消费。
+- **创建拉取请求**：通过创建`ProcessQueue`对象和`PullRequest`，确保每个消费者能够正确地从Broker拉取消息并进行消费。
 
-3. **监控与调整**：由于队列分配是动态的，特别是在消费者数量或队列数量发生变化时，可能会出现短暂的分配不一致，导致少量消息被重复消费。因此，建议监控消费者和队列的分配状态，必要时通过调整消费者数量或队列数量来优化负载均衡效果。
-
-4. **幂等性设计**：考虑到负载均衡调整期间可能出现的消息重复，确保消费逻辑具备幂等性至关重要。这意味着无论消息被处理多少次，其最终结果都应保持一致，避免因重复消费导致的数据不一致性。
-
-### 解释：
-
-- **为何采用队列粒度**：这种策略适合流式计算和数据聚合场景，因为它可以保证来自同一队列的消息被同一个消费者处理，有利于批量处理和聚合操作。
-  
-- **版本兼容性注意**：如果使用的是Apache RocketMQ 5.x版本的服务端，尽管仍支持队列粒度负载均衡，但还需考虑客户端版本和消费者类型，因为5.x版本开始也支持消息粒度的负载均衡策略。
-
-- **未给出具体配置步骤**：根据提供的知识，队列粒度负载均衡在旧版本RocketMQ中是默认行为，故未提供具体的配置步骤，重点在于理解其工作原理和如何优化消费逻辑以适应此策略。
-
-### 链接引用：
-- RocketMQ代码库示例：[LitePullConsumerAssign.java](https://github.com/apache/rocketmq/blob/develop/example/src/main/java/org/apache/rocketmq/example/simple/LitePullConsumerAssign.java)
-
-综上所述，实施RocketMQ队列粒度负载均衡主要依赖于客户端的自然行为和合理设计消费逻辑的幂等性，确保在动态分配过程中维持系统的稳定性和数据的一致性。
+以上步骤详细描述了RocketMQ中队列粒度负载均衡的实现过程，确保了消息在消费者之间的均匀分配。
 
 
 <font color="#949494">---------------</font> 
@@ -43,7 +51,11 @@ RocketMQ的队列粒度负载均衡策略主要应用于历史版本的消费者
 
 ## 参考链接 ：
 
-* 专家经验：消费者负载均衡 5.x 
+* 专家经验：rocketmq   设计(design) 
+ 
+ * 专家经验：消费者负载均衡 5.x 
+ 
+ * 专家经验：broker负载怎么看 
 
 
  <font color="#949494">---------------</font> 
@@ -52,7 +64,12 @@ RocketMQ的队列粒度负载均衡策略主要应用于历史版本的消费者
 
 ## <font color="#FF0000">答疑服务说明：</font> 
 
-本内容经由技术专家审阅的用户问答的镜像生成，我们提供了<font color="#FF0000">专家智能答疑服务</font>，在<font color="#FF0000">页面的右下的浮窗”专家答疑“</font>。您也可以访问 : [全局专家答疑](https://answer.opensource.alibaba.com/docs/intro) 。 咨询其他产品的的问题
+本内容经由技术专家审阅的用户问答的镜像生成，我们提供了<font color="#FF0000">专家智能答疑服务</font>,使用方法：
+用法1： 在<font color="#FF0000">页面的右下的浮窗”专家答疑“</font>。
+用法2： 点击[专家答疑页](https://answer.opensource.alibaba.com/docs/intro)（针对部分网站不支持插件嵌入的情况）
+### 另：
 
+
+有其他开源产品的使用问题？[点击访问阿里AI专家答疑服务](https://answer.opensource.alibaba.com/docs/intro)。
 ### 反馈
-如问答有错漏，欢迎点：[差评](https://ai.nacos.io/user/feedbackByEnhancerGradePOJOID?enhancerGradePOJOId=16388)给我们反馈。
+如问答有错漏，欢迎点：[差评](https://ai.nacos.io/user/feedbackByEnhancerGradePOJOID?enhancerGradePOJOId=17225)给我们反馈。

@@ -1,9 +1,11 @@
 ---
 id: "question-history-16450"
 title: "rocketmq github 地址"
-date: "2024-08-07"
+date: "2024-09-26"
 category: "expertConsultation"
-description: "内容如下：1. **解析问题需求**：用户询问的是关于`rocketmq`的`github`地址信息。2. **依托知识**：根据提供的知识内容，可以直接给出`RocketMQ`的GitHub地址及相关额外信息。答案如下：`RocketMQ`的GitHub地址是：[https://github.co"
+description: "根据我了解的信息中的信息，RocketMQ的GitHub地址为：- [https://github.com/apache/rocketmq](https://github.com/apache/rocketmq)此外，在这个主仓库下还有多个子项目或相关工具的链接，包括但不限于：- RocketMQ "
+tags: ["rocketmq","github","地址"]
+keywords: ["rocketmq","github","地址"]
 ---
 
 ## 用户问题 ： 
@@ -12,23 +14,18 @@ description: "内容如下：1. **解析问题需求**：用户询问的是关�
 ---------------
 ## 专家官方解答 ：
 
-内容如下：
+根据我了解的信息中的信息，RocketMQ的GitHub地址为：
 
-1. **解析问题需求**：用户询问的是关于`rocketmq`的`github`地址信息。
+- [https://github.com/apache/rocketmq](https://github.com/apache/rocketmq)
 
-2. **依托知识**：根据提供的知识内容，可以直接给出`RocketMQ`的GitHub地址及相关额外信息。
+此外，在这个主仓库下还有多个子项目或相关工具的链接，包括但不限于：
+- RocketMQ Streams: [https://github.com/apache/rocketmq-streams](https://github.com/apache/rocketmq-streams)
+- RocketMQ Flink 连接器: [https://github.com/apache/rocketmq-flink](https://github.com/apache/rocketmq-flink)
+- RocketMQ APIs (基于protobuf): [https://github.com/apache/rocketmq-apis](https://github.com/apache/rocketmq-apis)
+- gRPC/protobuf-based RocketMQ clients: [https://github.com/apache/rocketmq-clients](https://github.com/apache/rocketmq-clients)
+- 以及针对不同语言实现的客户端如C++、Go、Python等。
 
-答案如下：
-
-`RocketMQ`的GitHub地址是：[https://github.com/apache/rocketmq](https://github.com/apache/rocketmq)。此仓库包含了`Apache RocketMQ`的源代码，文档以及相关资源，是获取`RocketMQ`最新版本、参与社区贡献或了解项目详情的官方渠道。
-
-此外，关于`RocketMQ`的Spring SDK集成地址是：[https://github.com/apache/rocketmq-spring](https://github.com/apache/rocketmq-spring)，如果您计划在Spring应用中集成`RocketMQ`，可以参考这个仓库。
-
-以及，如果您对部署`RocketMQ`至Kubernetes（k8s）感兴趣，有两种方式可选：
-- 使用原生K8s控制器和Helm Chart部署，参考：[https://github.com/apache/rocketmq-docker/tree/master/rocketmq-k8s-helm](https://github.com/apache/rocketmq-docker/tree/master/rocketmq-k8s-helm)。
-- 利用`RocketMQ Operator`进行部署，详细信息在：[https://github.com/apache/rocketmq-operator](https://github.com/apache/rocketmq-operator)。
-
-以上链接包含了您可能需要的所有关键资源，无论是基本的源码访问还是高级的部署方案。
+这些链接指向了RocketMQ项目的官方代码库及其生态系统中重要的组成部分。如果你对特定功能或者集成感兴趣，可以访问上述链接获取更多信息和资源。
 
 
 <font color="#949494">---------------</font> 
@@ -36,9 +33,11 @@ description: "内容如下：1. **解析问题需求**：用户询问的是关�
 
 ## 参考链接 ：
 
-* 专家经验：rocketmq github 地址 
+* 专家经验：本地部署RocketMQ 5.0 
  
- * 专家经验：将rocketmq部署k8s 
+ * 专家经验：rocketmq github 地址 
+ 
+ * 专家经验：RocketMQ Dashboard 
 
 
  <font color="#949494">---------------</font> 
@@ -47,7 +46,12 @@ description: "内容如下：1. **解析问题需求**：用户询问的是关�
 
 ## <font color="#FF0000">答疑服务说明：</font> 
 
-本内容经由技术专家审阅的用户问答的镜像生成，我们提供了<font color="#FF0000">专家智能答疑服务</font>，在<font color="#FF0000">页面的右下的浮窗”专家答疑“</font>。您也可以访问 : [全局专家答疑](https://answer.opensource.alibaba.com/docs/intro) 。 咨询其他产品的的问题
+本内容经由技术专家审阅的用户问答的镜像生成，我们提供了<font color="#FF0000">专家智能答疑服务</font>,使用方法：
+用法1： 在<font color="#FF0000">页面的右下的浮窗”专家答疑“</font>。
+用法2： 点击[专家答疑页](https://answer.opensource.alibaba.com/docs/intro)（针对部分网站不支持插件嵌入的情况）
+### 另：
 
+
+有其他开源产品的使用问题？[点击访问阿里AI专家答疑服务](https://answer.opensource.alibaba.com/docs/intro)。
 ### 反馈
-如问答有错漏，欢迎点：[差评](https://ai.nacos.io/user/feedbackByEnhancerGradePOJOID?enhancerGradePOJOId=16452)给我们反馈。
+如问答有错漏，欢迎点：[差评](https://ai.nacos.io/user/feedbackByEnhancerGradePOJOID?enhancerGradePOJOId=17234)给我们反馈。

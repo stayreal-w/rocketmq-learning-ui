@@ -1,9 +1,11 @@
 ---
 id: "question-history-16592"
 title: "搭建"
-date: "2024-08-09"
+date: "2024-09-26"
 category: "expertConsultation"
-description: "为了帮助您更好地搭建RocketMQ，我将依据提供的知识内容，分步骤进行说明：### 1. 确定搭建需求首先，请确认您是希望进行**Dledger快速搭建**以体验容灾切换功能，还是计划进行完整的**Dledger集群搭建**以实现生产环境的高可用部署。这将决定我们后续采取的具体步骤。### 2. "
+description: "根据提供的我了解的信息，我们可以了解到搭建RocketMQ集群有两种方式：一种是使用Dledger实现自动容灾切换的高可用部署；另一种是通过快速尝试脚本来体验基于Dledger的RocketMQ集群。下面将按照这两种方法分别介绍如何进行RocketMQ的搭建。### 一、使用Dledger构建高可用"
+tags: ["rocketmq","搭建","教程","","配置","集群","消息队列"]
+keywords: ["rocketmq","搭建","教程","","配置","集群","消息队列"]
 ---
 
 ## 用户问题 ： 
@@ -12,22 +14,19 @@ description: "为了帮助您更好地搭建RocketMQ，我将依据提供的知�
 ---------------
 ## 专家官方解答 ：
 
-为了帮助您更好地搭建RocketMQ，我将依据提供的知识内容，分步骤进行说明：
+根据提供的我了解的信息，我们可以了解到搭建RocketMQ集群有两种方式：一种是使用Dledger实现自动容灾切换的高可用部署；另一种是通过快速尝试脚本来体验基于Dledger的RocketMQ集群。下面将按照这两种方法分别介绍如何进行RocketMQ的搭建。
 
-### 1. 确定搭建需求
-首先，请确认您是希望进行**Dledger快速搭建**以体验容灾切换功能，还是计划进行完整的**Dledger集群搭建**以实现生产环境的高可用部署。这将决定我们后续采取的具体步骤。
+### 一、使用Dledger构建高可用RocketMQ集群
 
-### 2. Dledger快速搭建（体验环境）
-如果您目的是快速体验RocketMQ结合Dledger的自动容灾切换，可以按照以下步骤操作：
-
-#### 步骤1: 获取并构建DLedger与RocketMQ源码
-- 克隆DLedger源码并构建：
+#### 1. 源码构建
+首先需要分别构建DLedger和RocketMQ项目。
+- **构建DLedger**:
   ```shell
   $ git clone https://github.com/openmessaging/dledger.git
   $ cd dledger
   $ mvn clean install -DskipTests
   ```
-- 克隆RocketMQ源码并构建（选择develop分支）：
+- **构建RocketMQ**:
   ```shell
   $ git clone https://github.com/apache/rocketmq.git
   $ cd rocketmq
@@ -35,38 +34,40 @@ description: "为了帮助您更好地搭建RocketMQ，我将依据提供的知�
   $ mvn -Prelease-all -DskipTests clean install -U
   ```
 
-#### 步骤2: 快速部署RocketMQ
-- 导航至编译后的RocketMQ目录并启动快速尝试脚本：
+#### 2. 配置与启动Broker
+- 准备至少三台机器，并为每台机器编写配置文件。参考`conf/dledger`目录下的示例文件来创建自己的配置文件。
+- 启动每个节点上的Broker服务：
   ```shell
-  $ cd distribution/target/rocketmq-{rocketmq-version}/rocketmq-{rocketmq-version}
+  $ nohup sh bin/mqbroker -c conf/dledger/xxx-n0.conf &
+  $ nohup sh bin/mqbroker -c conf/dledger/xxx-n1.conf &
+  $ nohup sh bin/mqbroker -c conf/dledger/xxx-n2.conf &
+  ```
+
+#### 3. 容灾测试
+- 在集群运行时，可以尝试关闭当前的Leader节点（如端口30931所在的进程），观察其他节点是否能成功选举出新的Leader并继续提供服务。
+
+### 二、快速体验基于Dledger的RocketMQ集群
+
+#### 1. 构建环境
+同样的，先完成DLedger及RocketMQ的源码编译步骤。
+
+#### 2. 快速部署
+- 进入RocketMQ安装包目录后执行快速启动脚本：
+  ```shell
+  $ cd distribution/target/rocketmq-{版本号}/rocketmq-{版本号}
   $ sh bin/dledger/fast-try.sh start
   ```
-- 使用`mqadmin clusterList`命令查看集群状态。
-
-#### 步骤3: 测试与关闭
-- 测试容灾切换：通过杀死当前Leader节点观察自动切换。
-- 停止集群：
+- 使用`mqadmin`工具检查集群状态：
+  ```shell
+  $ sh bin/mqadmin clusterList -n 127.0.0.1:9876
+  ```
+- 若要停止集群，则运行：
   ```shell
   $ sh bin/dledger/fast-try.sh stop
   ```
 
-### 3. Dledger集群搭建（生产环境）
-若需搭建用于生产的RocketMQ集群，步骤更为详细，包括配置编写、Broker启动等：
-
-#### 步骤1: 准备配置文件
-- 为每个Broker节点准备独立的配置文件，如`conf/dledger/broker-n0.conf`，确保配置了正确的`dLegerGroup`、`dLegerPeers`、`dLegerSelfId`等参数。
-
-#### 步骤2: 启动Broker
-- 分别使用配置文件启动每个Broker节点：
-  ```shell
-  $ nohup sh bin/mqbroker -c conf/dledger/xxx-n0.conf &
-  ```
-
-#### 步骤3: （可选）旧集群升级
-- 如果是从旧集群升级，需先停旧Broker，检查并同步Commitlog，然后按新集群的方式修改配置并重启Broker。
-
 ### 解释
-以上步骤旨在确保您能够根据实际需求，无论是快速体验还是生产部署，都能顺利完成RocketMQ结合Dledger的搭建。快速搭建适合初学者或测试场景，而集群搭建则面向生产环境，需细致规划和配置以确保高可用性和数据一致性。请根据您的具体需求选择合适的搭建流程，并注意每一步操作的正确执行。
+上述两种方法都提供了从零开始到拥有一个基本功能齐全的RocketMQ集群的过程。第一种方法适用于生产环境，它通过详细的配置确保了系统的稳定性和可靠性；而第二种方法则更适合于开发或测试阶段，用于快速验证概念或功能。无论哪种情况，都需要确保网络连通性以及正确的JVM参数设置以优化性能。对于更高级的功能如Dashboard管理界面等，可以根据具体需求参照相关文档进一步配置。
 
 
 <font color="#949494">---------------</font> 
@@ -75,6 +76,10 @@ description: "为了帮助您更好地搭建RocketMQ，我将依据提供的知�
 ## 参考链接 ：
 
 * 专家经验：rocketmq Dledger 
+ 
+ * 专家经验：rocketmq github 地址 
+ 
+ * 专家经验：rocketmq  Dledger集群搭建 
 
 
  <font color="#949494">---------------</font> 
@@ -83,7 +88,12 @@ description: "为了帮助您更好地搭建RocketMQ，我将依据提供的知�
 
 ## <font color="#FF0000">答疑服务说明：</font> 
 
-本内容经由技术专家审阅的用户问答的镜像生成，我们提供了<font color="#FF0000">专家智能答疑服务</font>，在<font color="#FF0000">页面的右下的浮窗”专家答疑“</font>。您也可以访问 : [全局专家答疑](https://answer.opensource.alibaba.com/docs/intro) 。 咨询其他产品的的问题
+本内容经由技术专家审阅的用户问答的镜像生成，我们提供了<font color="#FF0000">专家智能答疑服务</font>,使用方法：
+用法1： 在<font color="#FF0000">页面的右下的浮窗”专家答疑“</font>。
+用法2： 点击[专家答疑页](https://answer.opensource.alibaba.com/docs/intro)（针对部分网站不支持插件嵌入的情况）
+### 另：
 
+
+有其他开源产品的使用问题？[点击访问阿里AI专家答疑服务](https://answer.opensource.alibaba.com/docs/intro)。
 ### 反馈
-如问答有错漏，欢迎点：[差评](https://ai.nacos.io/user/feedbackByEnhancerGradePOJOID?enhancerGradePOJOId=16599)给我们反馈。
+如问答有错漏，欢迎点：[差评](https://ai.nacos.io/user/feedbackByEnhancerGradePOJOID?enhancerGradePOJOId=17267)给我们反馈。
